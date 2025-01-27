@@ -2,7 +2,7 @@
 
 public class Str
 {
-    public static void Main()
+    public static void Stri()
     {
         Console.Write("Введите своё Имя ");
         string name = Console.ReadLine();

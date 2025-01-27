@@ -1,0 +1,18 @@
+﻿using System;
+
+
+namespace unior
+{
+    internal class ShopGem
+    {
+        public static void Main()
+        {
+            int gold = int.Parse(Console.ReadLine());
+            int cost = int.Parse(Console.ReadLine());
+            int gem = gold/cost;
+            int leftGold = gold%cost;
+            Console.WriteLine($"Кол-во кристаллов {gem}, остаток золота {leftGold}");
+        }
+
+    }
+}
