@@ -1,29 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 
-//У вас есть множество целых чисел. Каждое целое число - это сумма покупки.
-
-//Вам нужно обслуживать клиентов до тех пор, пока очередь не станет пуста. 
-
-//После каждого обслуженного клиента деньги нужно добавлять на наш счёт и выводить его в консоль.  
-
-//После обслуживания каждого клиента программа ожидает нажатия любой клавиши, после чего затирает 
-//консоль и по новой выводит всю информацию, только уже со следующим клиентом
-
-public class MainClass
+public class Str
 {
     public static void Main()
     {
-        int a = 10;
+        Console.Write("Введите своё Имя ");
+        string name = Console.ReadLine();
+        Console.Write("Введите свой пол М/Ж ");
+        char gender = char.Parse(Console.ReadLine());
+        Console.Write("Сколько вам лет? ");
+        string age = Console.ReadLine();
+        if (gender == 'М')
+            Console.WriteLine("Приветсвую, Добрый путник {0} возрастом таким-то {1}", name, age);
+        else if (gender == 'Ж')
+            Console.WriteLine("Приветсвую, Добрую путницу {0} возрастом таким-то {1}", name, age);
 
-        int b = 38;
-
-        int c = (31 - 5 * a) / b;
-
-        Console.WriteLine(c);
 
 
-    } 
+    }
+
 }
-
-        
