@@ -5,7 +5,7 @@ namespace unior
 {
     internal class ShopGem
     {
-        public static void Main()
+        public static void Gem1()
         {
             int gold = int.Parse(Console.ReadLine());
             int cost = int.Parse(Console.ReadLine());
