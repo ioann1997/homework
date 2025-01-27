@@ -8,7 +8,7 @@ namespace unior
 {
     public class permenne
     {
-        public static void Main()
+        public static void Perem()
         {
             int age = 27;
             double version = 1.2;
