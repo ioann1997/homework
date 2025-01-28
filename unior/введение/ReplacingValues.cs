@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace unior
+namespace unior.введение
 {
     public class ReplacingValues
     {
-        public static void Value1() 
-        { 
+        public static void Value1()
+        {
             int a = 4;
             int b = 7;
             Console.WriteLine($"{a} {b}");
-            a = a+b;
+            a = a + b;
             b = a - b;
             a = a - b;
             Console.WriteLine($"{a} {b}");
