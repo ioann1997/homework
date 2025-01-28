@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace unior.циклы_и_условнй_оператор
+namespace unior
 {
     internal class HomeWork3
     {
         public static void Hm3()
         {
-            int maxNum = 103;
-            int startNum = 5;
-            int plusNum = 7;
-            for (int i = startNum; i <= maxNum; i += plusNum)
+            int maxNumber = 103;
+            int startNumber = 5;
+            int stepNumber = 7;
+                for (int i = startNumber; i <= maxNumber; i += stepNumber)
             {
                 Console.WriteLine(i);
             }

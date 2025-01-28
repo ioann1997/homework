@@ -10,9 +10,9 @@ namespace unior.циклы_и_условнй_оператор
     {
         public static void Hm2()
         {
-            string exitWhile = "exit";
+            string exitWord = "exit";
             string message = "";
-            while (message != exitWhile) 
+                while (message != exitWord) 
             {
                 Console.Write("Введи сообщение ");
                 message = Console.ReadLine();
