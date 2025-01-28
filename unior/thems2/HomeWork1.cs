@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace unior.циклы_и_условнй_оператор
+namespace unior
 {
     internal class HomeWork1
     {
         public static void Hm1()
         {
-            int n = int.Parse(Console.ReadLine());
+            int countСycle = int.Parse(Console.ReadLine());
             Console.Write("Введи сообщение ");
             string message = Console.ReadLine();
-            for (int i = 0; i < n; i++)
+                for (int i = 0; i < countСycle; i++)
             {
                 Console.WriteLine(message);
             }
