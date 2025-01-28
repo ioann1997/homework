@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace unior
+namespace unior.введение
 {
     public class permenne
     {
@@ -17,7 +17,7 @@ namespace unior
             char gender = 'M';
             string[] fullName = { "Ioann", "Ivenskiy", "Olegovich" };
             bool islike = false;
-            UInt32 numPositiv = 1000;
+            uint numPositiv = 1000;
             byte numTiny = 2;
             long numLarge = 2024100110250120;
         }

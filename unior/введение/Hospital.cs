@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace unior
+namespace unior.введение
 {
     internal class Hospital
     {
