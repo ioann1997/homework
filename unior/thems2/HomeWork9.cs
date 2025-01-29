@@ -1,14 +1,6 @@
 ﻿using System;
 
-//Доработать
-
-//1 - много магических чисел, избавьтесь от них
-
-//2 - не нужен цикл while. Увеличивайте сразу итератор цикла 
-
-//3 - count - количество. counter - счетчик 
-
-namespace unior
+namespace Unior
 {
     class HomeWork9
     {
@@ -31,7 +23,6 @@ namespace unior
                     counter++;
                 }
             }
-
             Console.WriteLine($"Количество чисел от {startNumber} до {endNumber}, кратных {number}: {counter}");
         }
     }

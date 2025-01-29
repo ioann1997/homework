@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace unior
+namespace Unior
 {
     internal class HomeWork10
     {
-        public static void Main()
+        public static void Hm10()
         {
             Random random = new Random();
             int startRandomNumber = 1;
@@ -19,7 +19,6 @@ namespace unior
                 result *= numberBase; 
                 power++; 
             }
-
             Console.WriteLine($"Заданное число: {number}");
             Console.WriteLine($"Минимальная степень: {numberBase}^{power} = {result}");
         }
