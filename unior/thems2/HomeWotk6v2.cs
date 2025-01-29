@@ -1,18 +1,17 @@
 ﻿using System;
 
-
 namespace unior
 {
     internal class HomeWork6v2
     {
         public static void Main()
         {
-            const string CommandDollarToRuble = "DollarToRuble";
-            const string CommandDollarToTugriki = "DollarToTugriki";
-            const string CommandRubleToTugriki = "RubleToTugriki";
-            const string CommandRubleToDollar = "RubleToDollar";
-            const string CommandTugrikiTodollar = "TugrikiTodollar";
-            const string CommandTugrikiToRuble = "TugrikiToRuble";
+            const string CommandDollarToRuble = "1";
+            const string CommandDollarToTugriki = "2";
+            const string CommandRubleToTugriki = "3";
+            const string CommandRubleToDollar = "4";
+            const string CommandTugrikiTodollar = "5";
+            const string CommandTugrikiToRuble = "6";
 
             Console.Write($"Введите свой баланс RUB: ");
             double balanceRUB = double.Parse(Console.ReadLine());
@@ -35,9 +34,9 @@ namespace unior
             while (input != stopWord)
             {
                 Console.WriteLine($"Выберите что хотите конвертировать : \n" +
-                    $"{CommandDollarToRuble}\n{CommandDollarToTugriki}\n" +
-                    $"{CommandRubleToTugriki}\n{CommandRubleToDollar}\n" +
-                    $"{CommandTugrikiTodollar}\n{CommandTugrikiToRuble}\n");
+                    $"DollarToRuble - {CommandDollarToRuble}\n DollarToTugriki - {CommandDollarToTugriki}\n" +
+                    $"RubleToTugriki - {CommandRubleToTugriki}\n RubleToDollar - {CommandRubleToDollar}\n" +
+                    $"TugrikiTodollar - {CommandTugrikiTodollar}\n TugrikiToRuble - {CommandTugrikiToRuble}\n");
                 Console.WriteLine($"Если хотите выйти введите {stopWord}");
                 input = Console.ReadLine();
                 double wantConvert = 0;
@@ -48,7 +47,12 @@ namespace unior
                         Console.Write($"Сколько хотите перевести? ");
                         wantConvert = double.Parse(Console.ReadLine());
 
-                        if (IsBalancLessZero(balanceUSD, wantConvert))
+                        if (balanceUSD < wantConvert)
+                        {
+                            Console.WriteLine("Баланс не может быть меньше 0\n" +
+                                $"Текущий баланс: {balanceUSD}  Введите сумму конвертации Заново");
+                        }
+                        else
                         {
                             balanceUSD -= wantConvert;
                             balanceRUB = wantConvert * ratioDollrToRuble;
@@ -61,7 +65,12 @@ namespace unior
                         Console.Write($"Сколько хотите перевести? ");
                         wantConvert = double.Parse(Console.ReadLine());
 
-                        if (IsBalancLessZero(balanceRUB, wantConvert))
+                        if (balanceRUB < wantConvert)
+                        {
+                            Console.WriteLine("Баланс не может быть меньше 0\n" +
+                                $"Текущий баланс: {balanceRUB}  Введите сумму конвертации Заново");
+                        }
+                        else
                         {
                             balanceRUB -= wantConvert;
                             balanceUSD = wantConvert * ratioRubleToDollar;
@@ -74,7 +83,12 @@ namespace unior
                         Console.Write($"Сколько хотите перевести? ");
                         wantConvert = double.Parse(Console.ReadLine());
 
-                        if (IsBalancLessZero(balanceUSD, wantConvert))
+                        if (balanceUSD < wantConvert)
+                        {
+                            Console.WriteLine("Баланс не может быть меньше 0\n" +
+                                $"Текущий баланс: {balanceUSD}  Введите сумму конвертации Заново");
+                        }
+                        else
                         {
                             balanceUSD -= wantConvert;
                             balanceMNT = wantConvert * ratioDollarToTugriki;
@@ -87,7 +101,12 @@ namespace unior
                         Console.Write($"Сколько хотите перевести? ");
                         wantConvert = double.Parse(Console.ReadLine());
 
-                        if (IsBalancLessZero(balanceMNT, wantConvert))
+                        if (balanceMNT < wantConvert)
+                        {
+                            Console.WriteLine("Баланс не может быть меньше 0\n" +
+                                $"Текущий баланс: {balanceMNT}  Введите сумму конвертации Заново");
+                        }
+                        else
                         {
                             balanceMNT -= wantConvert;
                             balanceUSD = wantConvert / ratioTugrikiToDollar;
@@ -100,7 +119,12 @@ namespace unior
                         Console.Write($"Сколько хотите перевести? ");
                         wantConvert = double.Parse(Console.ReadLine());
 
-                        if (IsBalancLessZero(balanceMNT, wantConvert))
+                        if (balanceMNT < wantConvert)
+                        {
+                            Console.WriteLine("Баланс не может быть меньше 0\n" +
+                                $"Текущий баланс: {balanceMNT}  Введите сумму конвертации Заново");
+                        }
+                        else
                         {
                             balanceMNT -= wantConvert;
                             balanceRUB = wantConvert * ratioTugrikiToRuble;
@@ -113,7 +137,12 @@ namespace unior
                         Console.Write($"Сколько хотите перевести? ");
                         wantConvert = double.Parse(Console.ReadLine());
 
-                        if (IsBalancLessZero(balanceRUB, wantConvert))
+                        if (balanceRUB < wantConvert)
+                        {
+                            Console.WriteLine("Баланс не может быть меньше 0\n" +
+                                $"Текущий баланс: {balanceMNT}  Введите сумму конвертации Заново");
+                        }
+                        else
                         {
                             balanceRUB -= wantConvert;
                             balanceMNT = wantConvert * ratioRubleToTugriki;
@@ -122,19 +151,6 @@ namespace unior
                         }
                         break;
                 }
-            }
-        }
-        public static bool IsBalancLessZero(double balance, double stepBalance)
-        {
-            if (balance - stepBalance < 0)
-            {
-                Console.WriteLine("Баланс не может быть меньше 0\n" +
-                    $"Текущий баланс: {balance}  Введите сумму конвертации Заново");
-                return false;
-            }
-            else
-            {
-                return true;
             }
         }
     }
