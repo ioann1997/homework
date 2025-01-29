@@ -1,7 +1,6 @@
 ﻿using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace unior
+namespace Unior
 {
     internal class HomeWork8
     {
