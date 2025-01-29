@@ -5,7 +5,7 @@ namespace unior
 {
     internal class HomeWork6
     {
-        public static void Main()
+        public static void Hm6()
         {
             Console.Write($"Введите свой баланс {Currency.RUB}: ");
             double balanceRub = double.Parse(Console.ReadLine());
