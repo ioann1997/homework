@@ -1,37 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace unior.thems2
+//Доработать
+
+//1 - много магических чисел, избавьтесь от них
+
+//2 - не нужен цикл while. Увеличивайте сразу итератор цикла 
+
+//3 - count - количество. counter - счетчик 
+
+namespace unior
 {
     class HomeWork9
     {
         public static void Hm9()
         {
             Random random = new Random();
-            int number = random.Next(10, 26); 
-            int count = 0;
+            int startRandomNumber = 10;
+            int endRandomNumber = 25;
+            int startNumber = 50;
+            int endNumber = 150;
+            int number = random.Next(startRandomNumber, endRandomNumber+1); 
+            int counter = 0;
 
-            Console.WriteLine($"Сгенерированное значение N: {number}");
+            Console.WriteLine($"Сгенерированное значение number: {number}");
 
-            for (int i = 50; i <= 150; i++)
+            for (int i = number; i <= endNumber; i+=number)
             {
-                int temp = i;
-
-                while (temp >= number)
+                if (i >= startNumber)
                 {
-                    temp -= number; 
-                }
-
-                if (temp == 0)
-                {
-                    count++;
+                    counter++;
                 }
             }
 
-            Console.WriteLine($"Количество чисел от 50 до 150, кратных {number}: {count}");
+            Console.WriteLine($"Количество чисел от {startNumber} до {endNumber}, кратных {number}: {counter}");
         }
     }
 }

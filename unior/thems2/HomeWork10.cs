@@ -4,21 +4,24 @@ namespace unior
 {
     internal class HomeWork10
     {
-        public static void Hm10()
+        public static void Main()
         {
             Random random = new Random();
-            int number = random.Next(1, 100); 
+            int startRandomNumber = 1;
+            int endRandomNumber = 100;
+            int numberBase = 3;
+            int number = random.Next(startRandomNumber, endRandomNumber+1); 
             int power = 0;
             int result = 1; 
 
             while (result <= number)
             {
-                result = result + result; 
+                result *= numberBase; 
                 power++; 
             }
 
             Console.WriteLine($"Заданное число: {number}");
-            Console.WriteLine($"Минимальная степень двойки: 2^{power} = {result}");
+            Console.WriteLine($"Минимальная степень: {numberBase}^{power} = {result}");
         }
     }
 }

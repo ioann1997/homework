@@ -4,17 +4,23 @@ namespace unior
 {
     internal class HomeWork7
     {
-        public static void Hm7(string[] args)
+        public static void Hw7(string[] args)
         {
             string name = Console.ReadLine();
-            char symbol = char.Parse(Console.ReadLine());
-            int lenthRectangle = name.Length + 2;
+            char symbol = Console.ReadKey(true).KeyChar;
+            string middleLine = symbol + name + symbol;
+            int lenthRectangle = middleLine.Length;
+            string Line = "";
 
-            for (int i = 0; i < lenthRectangle; i++) Console.Write(symbol);
+            for (int i = 0; i < lenthRectangle; i++)
+            {
+                Line += symbol;
+            }
 
-            Console.WriteLine($"\n{symbol}{name}{symbol}");
+            Console.WriteLine(Line);
+            Console.WriteLine(middleLine);
+            Console.WriteLine(Line);
 
-            for (int i = 0; i < lenthRectangle; i++) Console.Write(symbol);
         }
     }
 }
