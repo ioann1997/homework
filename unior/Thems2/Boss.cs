@@ -1,58 +1,104 @@
 ﻿using System;
 
-//Вы - герой и у вас есть несколько умений, которые вы можете использовать против Босса. Вы должны
-//уничтожить босса и только после этого будет вам покой. 
-
-//Формально:
-//Перед вами Босс, у которого есть определенное количество жизней и атака. Атака может быть к
-//ак всегда одной и той же, так и определяться рандомом в начале раунда. У Босса обычная атака. Босс должен иметь возможность убить героя.
-//У героя есть 4 умения
-//1. Обычная атака
-//2. Огненный шар, который тратит ману
-//3. Взрыв. Можно вызывать, только если был использован огненный шар. Для повторного применения
-//надо повторно использовать огненный шар.
-//4. Лечение. Восстанавливает здоровье и ману, но не больше их максимального значения. Можно исп
-//ользовать ограниченное число раз.
-//Если пользователь ошибся с вводом команды или не выполнилось условие, то герой пропускает ход
-//и происходит атака Босса
-//Программа завершается только после смерти босса или смерти пользователя, а если у вас возможно
-//одновременно убить друг друга, то надо сообщить о ничье. 
-
-namespace unior.thems2
+namespace Unior
 {
     internal class Boss
     {
-        public static void Main()
+        public static void Boss1()
         {
             // 1. Обычная атака
-            int BaseAttackDamage = 5;
+            int baseAttackDamage = 5;
 
             // 2. Огненный шар
-            int FireballManaCost = 5;
-            int FireballDamage = 12;   
-            bool FireballUse = false;
+            int fireballManaCost = 20;
+            int fireballDamage = 12;   
+            bool fireballUse = false;
 
             // 3. Взрыв
-            int ExplosionDamage = 18;   
-             bool ExplosionReady = false;
+            int explosionDamage = 18;   
 
             // 4. Лечение
-            int HealAmountHP = 40;
-            int HealAmountMana = 20;
-            int MaxHealUses = 3;
-            int HealUsesRemaining = 0; 
-
+            int healAmountHP = 40;
+            int healAmountMana = 15;
+            int maxHealUses = 3;
+            int healUsesRemaining = 0; 
 
             // Состояние героя
-            int MaxHealth = 100;
-            int CurrentHealth = MaxHealth;
-            int MaxMana = 30;
-            int CurrentMana = MaxMana;      
+            int maxHealth = 100;
+            int currentHealth = maxHealth;
+            int maxMana = 30;
+            int currentMana = maxMana;
 
+            // Характеристики босса
+            int maxHealthBoss = 100;
+            int currentHealthBoss = maxHealthBoss;
+            int bossAttackDamage = 10;
 
+            const string CommandAttack = "1";
+            const string CommandFireBall = "2";
+            const string CommandRemaining = "3";
+            const string CommandExplosion = "4";
+
+            while (currentHealth>0 & currentHealthBoss >0)
+            {
+                Console.WriteLine($"{CommandAttack} - Attack\n{CommandFireBall} - FireBall\n" +
+                    $"{CommandRemaining} - Remaining\n{CommandExplosion} - Explosion\n");
+                string action = Console.ReadLine();
+
+                switch (action)
+                {
+                    case CommandAttack:
+                        currentHealthBoss -= baseAttackDamage;
+                        break;
+
+                    case CommandFireBall:
+                        if (currentMana >= fireballManaCost)
+                        {
+                            currentMana -= fireballManaCost;
+                            currentHealthBoss -= fireballDamage;
+                            fireballUse = true;
+                        }
+                        break;
+
+                    case CommandRemaining:
+                        if (healUsesRemaining < maxHealUses)
+                        {
+                            currentMana += healAmountMana;
+
+                            if (currentMana > maxMana)
+                            {
+                                currentMana = maxMana;
+                            }
+                            currentHealth += healAmountHP;
+                            
+                            if (currentHealth>maxHealth)
+                            {
+                                currentHealth = maxHealth;
+                            }                          
+                            healUsesRemaining++;
+                        }
+                        break;
+
+                    case CommandExplosion:
+                        if (fireballUse)
+                        {
+                            currentHealthBoss -= explosionDamage;
+                            fireballUse = false;
+                        }
+                        break;
+                }
+                // Атака босса
+                Console.WriteLine($"Босс нанёс {bossAttackDamage} урона");
+                currentHealth -= bossAttackDamage;
+                // info
+                Console.WriteLine($"Стаутус:\n Здоровье {currentHealth} Мана {currentMana}\n Здоровье босса {currentHealthBoss}");
+
+                if (currentHealth == currentHealthBoss && currentHealth == 0) 
+                {
+                    Console.WriteLine("Поздравляю! у вас ничья)");
+                }
+            }
         }
-
-
     }
 }
-}
+
