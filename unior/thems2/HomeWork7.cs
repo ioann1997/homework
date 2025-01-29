@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace unior
+namespace Unior
 {
     internal class HomeWork7
     {
@@ -10,17 +10,15 @@ namespace unior
             char symbol = Console.ReadKey(true).KeyChar;
             string middleLine = symbol + name + symbol;
             int lenthRectangle = middleLine.Length;
-            string Line = "";
+            string line = "";
 
             for (int i = 0; i < lenthRectangle; i++)
             {
-                Line += symbol;
+                line += symbol;
             }
-
-            Console.WriteLine(Line);
+            Console.WriteLine(line);
             Console.WriteLine(middleLine);
-            Console.WriteLine(Line);
-
+            Console.WriteLine(line);
         }
     }
 }
