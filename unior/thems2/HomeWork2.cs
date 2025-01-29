@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace unior.циклы_и_условнй_оператор
+namespace unior
 {
     internal class HomeWork2
     {

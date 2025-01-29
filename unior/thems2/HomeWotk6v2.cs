@@ -4,7 +4,7 @@ namespace unior
 {
     internal class HomeWork6v2
     {
-        public static void Main()
+        public static void Hm6v2()
         {
             const string CommandDollarToRuble = "1";
             const string CommandDollarToTugriki = "2";
