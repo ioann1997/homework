@@ -6,38 +6,32 @@ namespace Unior
     {
         public static void Boss1()
         {
-            // 1. Обычная атака
+            const string CommandAttack = "1";
+            const string CommandFireBall = "2";
+            const string CommandRemaining = "3";
+            const string CommandExplosion = "4";
+            
             int baseAttackDamage = 5;
 
-            // 2. Огненный шар
             int fireballManaCost = 20;
             int fireballDamage = 12;   
-            bool fireballUse = false;
+            bool isFireballUsed = false;
 
-            // 3. Взрыв
             int explosionDamage = 18;   
 
-            // 4. Лечение
             int healAmountHP = 40;
             int healAmountMana = 15;
             int maxHealUses = 3;
             int healUsesRemaining = 0; 
 
-            // Состояние героя
             int maxHealth = 100;
             int currentHealth = maxHealth;
             int maxMana = 30;
             int currentMana = maxMana;
 
-            // Характеристики босса
             int maxHealthBoss = 100;
             int currentHealthBoss = maxHealthBoss;
             int bossAttackDamage = 10;
-
-            const string CommandAttack = "1";
-            const string CommandFireBall = "2";
-            const string CommandRemaining = "3";
-            const string CommandExplosion = "4";
 
             while (currentHealth>0 & currentHealthBoss >0)
             {
@@ -56,7 +50,7 @@ namespace Unior
                         {
                             currentMana -= fireballManaCost;
                             currentHealthBoss -= fireballDamage;
-                            fireballUse = true;
+                            isFireballUsed = true;
                         }
                         break;
 
@@ -83,20 +77,25 @@ namespace Unior
                         if (fireballUse)
                         {
                             currentHealthBoss -= explosionDamage;
-                            fireballUse = false;
+                            isFireballUsed = false;
                         }
                         break;
                 }
-                // Атака босса
                 Console.WriteLine($"Босс нанёс {bossAttackDamage} урона");
                 currentHealth -= bossAttackDamage;
-                // info
                 Console.WriteLine($"Стаутус:\n Здоровье {currentHealth} Мана {currentMana}\n Здоровье босса {currentHealthBoss}");
-
-                if (currentHealth == currentHealthBoss && currentHealth == 0) 
-                {
-                    Console.WriteLine("Поздравляю! у вас ничья)");
-                }
+            }
+            if (currentHealth <= 0 && currentHealthBoss <= 0) 
+            {
+                Console.WriteLine("Поздравляю! у вас ничья)");
+            }
+            else if (currentHealth <= 0)
+            {
+                Console.WriteLine("Жаль, но вы проиграли, грусть((");
+            }
+            else
+            {
+                Console.WriteLine("Сокрушительная победа над боссом!");
             }
         }
     }
