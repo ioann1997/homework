@@ -6,29 +6,31 @@ namespace Unior
     {
         public static void Hm1()
         {
-            int[,] array =
+            int[,] numbers =
             {
                 { 1, 2, 3, 4, 5, },
                 { 6, 7, 8, 9, 0, },
                 { 2, 4, 6, 8, 3, }
             };
 
-            int sumSecondRow = 0;
-            int resultFirstСolumn = 1;
-            int rows = array.GetLength(0);
-            int columns = array.GetLength(1);
+            int numberRow = 2;
+            int numberColumn = 1;
+            int sumRow = 0;
+            int resultСolumn = 1;
+            int rows = numbers.GetLength(0);
+            int columns = numbers.GetLength(1);
 
             for (int j = 0; j < columns; j++)
             {
-                sumSecondRow += array[1, j];
+                sumRow += numbers[numberRow-1, j];
             }
 
             for (int i = 0; i < rows; i++)
             {
-                resultFirstСolumn *= array[i, 0];
+                resultСolumn *= numbers[i, numberColumn-1];
             }
 
-            Console.WriteLine($"Сумма второй строки - {sumSecondRow}, произведение первого столбца {resultFirstСolumn}");
+            Console.WriteLine($"Сумма {numberRow} строки - {sumRow}, произведение {numberColumn} столбца {resultСolumn}");
         }
     }
 }
