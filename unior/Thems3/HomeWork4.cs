@@ -11,7 +11,7 @@ namespace Unior
             string keyWordSum = "sum";
             int[] numbers = new int[0];
             int[] tempNumbers = new int[numbers.Length + 1];
-            int total = 0;
+            int sum = 0;
 
             while (input != stopWord)
             {
@@ -27,10 +27,11 @@ namespace Unior
                 {
                     for (int i = 0; i < numbers.Length; i++)
                     {
-                        total += numbers[i];
+                        sum += numbers[i];
                     }
 
-                    Console.WriteLine($"Сумма массива - {total}");
+                    Console.WriteLine($"Сумма массива - {sum}");
+                    sum = 0;
                 }
                 else if (input != stopWord)
                 {
