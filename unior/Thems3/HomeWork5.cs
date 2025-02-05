@@ -4,7 +4,7 @@ namespace Unior
 {
     internal class HomeWork5
     {
-        public static void Main()
+        public static void Hm5()
         {
             Random random = new Random();
 
