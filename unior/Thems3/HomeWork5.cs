@@ -4,7 +4,7 @@ namespace Unior
 {
     internal class HomeWork5
     {
-        public static void Hm5()
+        public static void Main()
         {
             Random random = new Random();
 
@@ -14,7 +14,6 @@ namespace Unior
             int minRandomNumber = 1;
             int maxRandomNumber = 10;
 
-            int frequenceNumberNow = 0;
             int frequenceNumberResult = 0;
             int counterNow = 1;
             int counterResult = 1;
@@ -24,22 +23,20 @@ namespace Unior
                 numbers[i] = random.Next(minRandomNumber, maxRandomNumber + 1);
             }
 
-            for (int i = 0;i < numbers.Length; i++)
+            for (int i = 0;i < numbers.Length-1; i++)
             {
-                if (i!= numbers.Length - 1 && numbers[i] == numbers[i + 1])
+                if (numbers[i] == numbers[i + 1])
                 {
-                    frequenceNumberNow = numbers[i];
                     counterNow++;
-                }
-                else if (counterNow > counterResult)
-                {
-                    frequenceNumberResult = frequenceNumberNow;
-                    counterResult = counterNow;
-                    counterNow = 1;
+
+                    if (counterNow > counterResult)
+                    {
+                        frequenceNumberResult = numbers[i];
+                        counterResult = counterNow;
+                    }
                 }
                 else
                 {
-                    frequenceNumberNow = 0;
                     counterNow = 1;
                 }
             }
