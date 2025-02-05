@@ -4,7 +4,7 @@ namespace Unior.Thems3
 {
     internal class HomeWork9
     {
-        public static void Main()
+        public static void Hm9()
         {
             string staples = "(()(()))";
             int currentDepth = 0;
