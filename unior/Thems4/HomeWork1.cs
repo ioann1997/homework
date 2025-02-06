@@ -1,5 +1,4 @@
 ﻿using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Unior.Thems4
 {
@@ -10,6 +9,7 @@ namespace Unior.Thems4
             int number = ReadInt();
             Console.WriteLine($"{number}");
         }
+        
         public static int ReadInt()
         {
             while (true)
