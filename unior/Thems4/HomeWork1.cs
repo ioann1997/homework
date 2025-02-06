@@ -5,27 +5,20 @@ namespace Unior.Thems4
 {
     internal class HomeWork1
     {
-        public static void Hm1()
+        public static void Main()
         {
             int number = ReadInt();
             Console.WriteLine($"{number}");
         }
-        
+
         public static int ReadInt()
         {
-            int number =0;
-            bool isValid = false;
+            int number = 0;
+            Console.Write("Введите число: ");
 
-            while (!isValid)
+            while (int.TryParse(Console.ReadLine(), out number) == false)
             {
-                Console.Write("Введите число: ");
-                string input = Console.ReadLine();
-                isValid = int.TryParse(input, out  number);
-
-                if (!isValid)
-                {
                     Console.WriteLine("Преобразование завершилось неудачно");
-                }
             }
 
             return number;
