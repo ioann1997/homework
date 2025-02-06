@@ -19,13 +19,13 @@ namespace Unior.Thems4
 
             for (int i = 0; i < length - 1; i++)
             {
-                int j = random.Next(i, length);
+                int indexNew = random.Next(i, length);
 
                 if (j != i)
                 {
                     T temp = values[i];
-                    values[i] = values[j];
-                    values[j] = temp;
+                    values[i] = values[indexNew];
+                    values[indexNew] = temp;
                 }
             }
         }
