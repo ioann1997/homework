@@ -21,7 +21,7 @@ namespace Unior.Thems4
             {
                 int indexNew = random.Next(i, length);
 
-                if (j != i)
+                if (indexNew != i)
                 {
                     T temp = values[i];
                     values[i] = values[indexNew];
