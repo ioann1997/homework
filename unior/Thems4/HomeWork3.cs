@@ -4,7 +4,7 @@ namespace Unior.Thems4
 {
     internal static class HomeWork3
     {
-        public static void Main()
+        public static void Hm3()
         {
             int[] numbers = { 1, 2, 3, 4, 5 };
             Shuffle(numbers);

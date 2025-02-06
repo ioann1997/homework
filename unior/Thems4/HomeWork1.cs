@@ -1,10 +1,11 @@
 ﻿using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Unior.Thems4
 {
     internal class HomeWork1
     {
-        public static void Hm1()
+        public static void Main()
         {
             int number = ReadInt();
             Console.WriteLine($"{number}");
@@ -12,20 +13,22 @@ namespace Unior.Thems4
         
         public static int ReadInt()
         {
-            while (true)
+            int number =0;
+            bool isValid = false;
+
+            while (!isValid)
             {
                 Console.Write("Введите число: ");
                 string input = Console.ReadLine();
+                isValid = int.TryParse(input, out  number);
 
-                if (int.TryParse(input, out var number))
-                {
-                    return number;
-                }
-                else
+                if (!isValid)
                 {
                     Console.WriteLine("Преобразование завершилось неудачно");
                 }
             }
+
+            return number;
         }
     }
 }
