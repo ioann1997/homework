@@ -6,9 +6,9 @@ namespace Unior.Thems4
     {
         public static void Main()
         {
-            int[] arr = { 1, 2, 3, 4, 5 };
-            Shuffle(arr);
-            Console.WriteLine(string.Join(", ", arr));
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            Shuffle(numbers);
+            Console.WriteLine(string.Join(", ", numbers));
         }
 
         public static void Shuffle<T>(this T[] values)
