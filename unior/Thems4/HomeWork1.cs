@@ -5,7 +5,7 @@ namespace Unior.Thems4
 {
     internal class HomeWork1
     {
-        public static void Main()
+        public static void Hm1()
         {
             int number = ReadInt();
             Console.WriteLine($"{number}");
