@@ -12,8 +12,10 @@ namespace Unior.Thems4
             char[,] map = ReadMap("map.txt");
             int dogX = 1;
             int dogY = 1;
+            char stopKey = 'q';
+            char movementKey = ' ';
 
-            while (true)
+            while (movementKey != 'q')
             {
                 Console.Clear();
 
@@ -24,14 +26,12 @@ namespace Unior.Thems4
                 Console.SetCursorPosition(dogX, dogY);
                 Console.Write("@");
 
-                char movementKey = Console.ReadKey(true).KeyChar;
-                MovementDog(movementKey, ref dogX, ref dogY, map);
-
+                movementKey = Console.ReadKey(true).KeyChar;
+                MakeMoveDog(movementKey, ref dogX, ref dogY, map);
             }
-
-
         }
-        public static void MovementDog(char movementKey, ref int dogX, ref int dogY, char[,] map)
+
+        public static void MakeMoveDog(char movementKey, ref int dogX, ref int dogY, char[,] map)
         {
             int[] direction = GetDirection(movementKey);
 
@@ -44,6 +44,7 @@ namespace Unior.Thems4
                 dogY = nextPositionDogY;
             }
         }
+
         public static int[] GetDirection(char movementKey)
         {
             const char CommandLeft = 'a';
@@ -74,6 +75,7 @@ namespace Unior.Thems4
 
             return direction;
         }
+
         public static char[,] ReadMap(string path)
         {
             string[] file = File.ReadAllLines(path);
@@ -89,6 +91,7 @@ namespace Unior.Thems4
 
             return map;
         }
+
         public static void ShowMap(char[,] map)
         {
             for (int i = 0; i < map.GetLength(0); i++)
