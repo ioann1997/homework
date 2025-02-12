@@ -18,8 +18,8 @@ namespace Unior.Thems4
 
             while (input != CommandExit)
             {
-                Console.WriteLine("Выберите действие:\n1) добавить досье\n2) вывести все досье\n" +
-                    "3) удалить досье\n4) поиск по фамилии\n5) выход ");
+                Console.WriteLine($"Выберите действие:\n{CommandAddDossier}) добавить досье\n{CommandShowDossier}) вывести все досье\n" +
+                    $"{CommandRemoveDossier}) удалить досье\n{CommandSearchDossier}) поиск по фамилии\n{CommandExit}) выход ");
                 input = Console.ReadKey().KeyChar;
                 Console.WriteLine();
 
