@@ -5,7 +5,7 @@ namespace Unior.Thems5
 {
     internal class HomeWork5
     {
-        public static void Main()
+        public static void Hm5()
         {
             string[] numbers1 = { "1", "2", "1" };
             string[] numbers2 = { "3", "2" };
