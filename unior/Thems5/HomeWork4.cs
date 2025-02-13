@@ -26,17 +26,17 @@ namespace Unior.Thems5
                 switch (input)
                 {
                     case CommandAddDossier:
-                        AddDossier(ref dossier);
+                        AddDossier( dossier);
                         Console.Clear();
                         break;
 
                     case CommandShowDossier:
                         Console.Clear();
-                        ShowDossier(ref dossier);
+                        ShowDossier( dossier);
                         break;
 
                     case CommandRemoveDossier:
-                        RemoveDossier(ref dossier);
+                        RemoveDossier( dossier);
                         Console.Clear();
                         break;
 
@@ -46,7 +46,7 @@ namespace Unior.Thems5
             }
         }
 
-        public static void ShowDossier(ref Dictionary<string, List<string>> dossier)
+        public static void ShowDossier( Dictionary<string, List<string>> dossier)
         {
             foreach (var dossie in dossier)
             {
@@ -57,26 +57,31 @@ namespace Unior.Thems5
             }
         }
 
-        public static void RemoveDossier(ref Dictionary<string, List<string>> dossier)
+        public static void RemoveDossier( Dictionary<string, List<string>> dossier)
         {
             Console.Write("Кого хотите уволить? ");
             string fullName = Console.ReadLine();
+            
+            Console.Write("Какая у него должность? ");
+            string post = Console.ReadLine();
 
-            foreach (var dossie in dossier)
+            int inedx = 0;
+
+            while (inedx != -1)
             {
-                if (dossie.Value.Remove(fullName))
-                {
-                    if (dossie.Value.Count == 0)
-                    {
-                        dossier.Remove(dossie.Key);
-                    }
-                }
+                dossier[post].Remove(fullName);
+                inedx = dossier[post].IndexOf(fullName);
             }
 
+            if (dossier[post].Count == 0)
+            {
+                dossier.Remove(post);
+            }
         }
 
-        public static void AddDossier(ref Dictionary<string, List<string>> dossier)
+        public static void AddDossier( Dictionary<string, List<string>> dossier)
         {
+            string defaultPost = "Worker";
             Console.Write("Введите ваше ФИО: ");
             string fullName = Console.ReadLine();
             Console.Write("Введите должность, если есть ");
@@ -84,19 +89,15 @@ namespace Unior.Thems5
 
             if (post == "")
             {
-                post = "Worker";
+                post = defaultPost;
             }
 
-            if (dossier.ContainsKey(post))
+            if (dossier.ContainsKey(post) == false)
             {
-                List<string> fullNames = dossier[post];
-                fullNames.Add(fullName);
-                dossier[post] = fullNames;
+                dossier.Add(post, new List<string>());
             }
-            else
-            {
-                dossier.Add(post, new List<string> { fullName });
-            }
+
+            dossier[post].Add(fullName);
         }
     }
 }

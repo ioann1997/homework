@@ -14,9 +14,9 @@ namespace Unior.Thems5
 
             List<int> numbers = new List<int>();
             string input = "";
-            bool isStopProgramm = true;
+            bool isCurrentProgramm = true;
 
-            while (isStopProgramm)
+            while (isCurrentProgramm)
             {
                 Console.WriteLine($"Добавить число в массив - {CommandAddNumbers}\nПосчитать сумму массива - {CommandKeyWordSum}\n" +
                     $"Выйти - {CommandStopWord}");
@@ -27,7 +27,7 @@ namespace Unior.Thems5
                 switch (input)
                 {
                     case CommandStopWord:
-                        isStopProgramm = false;
+                        isCurrentProgramm = false;
                         break;
 
                     case CommandKeyWordSum:
