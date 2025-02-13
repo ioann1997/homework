@@ -1,17 +1,16 @@
 ﻿using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Unior.Thems4
 {
-    internal class HomeWork1
+    internal class ReadType
     {
-        public static void Hm1()
+        public  void Hm1()
         {
             int number = ReadInt();
             Console.WriteLine($"{number}");
         }
 
-        public static int ReadInt()
+        public int ReadInt()
         {
             int number = 0;
             Console.Write("Введите число: ");

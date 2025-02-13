@@ -5,7 +5,7 @@ namespace Unior.Thems5
 {
     internal class HomeWork1
     {
-        public static void Main()
+        public static void Hm1()
         {
             var explanatoryDictionary = new Dictionary<string, string>()
             {
