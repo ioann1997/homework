@@ -5,9 +5,9 @@ namespace Unior.Thems5
 {
     internal class HomeWork1
     {
-        public static void Hm1()
+        public static void Main()
         {
-            var ExplanatoryDictionary = new Dictionary<string, string>()
+            var explanatoryDictionary = new Dictionary<string, string>()
             {
                 { "Рибонуклеиновая кислота", "одна из трёх основных макромолекул," +
                 " которые содержатся в клетках всех живых организмов и играют " +
@@ -19,7 +19,6 @@ namespace Unior.Thems5
             };
 
             string input = "";
-            bool isHaveInDictionary = false;
             string stopWord = "exit";
 
             while (input != stopWord)
@@ -27,21 +26,14 @@ namespace Unior.Thems5
                 Console.WriteLine("Введите слово. значение, которого вы хотите узнать");
                 input = Console.ReadLine();
 
-                foreach (var word in ExplanatoryDictionary)
+                if (explanatoryDictionary.ContainsKey(input))
                 {
-                    if (input == word.Key)
-                    {
-                        Console.WriteLine(word.Value);
-                        isHaveInDictionary = true;
-                    }
+                    Console.WriteLine(explanatoryDictionary[input]);
                 }
-
-                if (isHaveInDictionary == false)
+                else
                 {
                     Console.WriteLine("Слова нет в словарею.");
-                }
-
-                isHaveInDictionary = false;           
+                }        
             }
         }
     }
