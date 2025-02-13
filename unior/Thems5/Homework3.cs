@@ -12,12 +12,11 @@ namespace Unior.Thems5
             const string CommandKeyWordSum = "sum";
             const string CommandAddNumbers = "add";
 
-            ReadType readType = new ReadType();
-
             List<int> numbers = new List<int>();
             string input = "";
+            bool isStopProgramm = true;
 
-            while (input != CommandStopWord)
+            while (isStopProgramm)
             {
                 Console.WriteLine($"Добавить число в массив - {CommandAddNumbers}\nПосчитать сумму массива - {CommandKeyWordSum}\n" +
                     $"Выйти - {CommandStopWord}");
@@ -28,6 +27,7 @@ namespace Unior.Thems5
                 switch (input)
                 {
                     case CommandStopWord:
+                        isStopProgramm = false;
                         break;
 
                     case CommandKeyWordSum:
@@ -36,14 +36,14 @@ namespace Unior.Thems5
                         break;
 
                     case CommandAddNumbers:
-                        numbers.Add(readType.ReadInt());
+                        numbers.Add(ReadInt());
                         Console.Clear();
                         break;
                 }
             }
         }
 
-        public static int SumList(List<int> numbers)
+        public static void SumList(List<int> numbers)
         {
             int sum = 0;
 
@@ -53,7 +53,6 @@ namespace Unior.Thems5
             }
 
             Console.WriteLine($"Сумма массива - {sum}");
-            return sum;
         }
         public static void ShowList(List<int> list)
         {
@@ -62,6 +61,19 @@ namespace Unior.Thems5
                 Console.Write(element + " ");
             }
             Console.WriteLine();
+        }
+
+        public static int ReadInt()
+        {
+            int number = 0;
+            Console.Write("Введите число: ");
+
+            while (int.TryParse(Console.ReadLine(), out number) == false)
+            {
+                Console.WriteLine("Преобразование завершилось неудачно");
+            }
+
+            return number;
         }
     }
 }
