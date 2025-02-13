@@ -5,7 +5,7 @@ namespace Unior.Thems4
 {
     internal class HomeWork5
     {
-        public static void Main()
+        public static void Hm5()
         {
             Console.CursorVisible = false;
 
@@ -15,7 +15,7 @@ namespace Unior.Thems4
             char stopKey = 'q';
             char movementKey = ' ';
 
-            while (movementKey != 'q')
+            while (movementKey != stopKey)
             {
                 Console.Clear();
 
