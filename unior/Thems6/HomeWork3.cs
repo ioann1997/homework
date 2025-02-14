@@ -14,8 +14,7 @@ namespace Unior.Thems6
 
             BaseData baseData = new BaseData();
 
-            char input = '0';
-            int inputId = 0;
+            char inputCommand = '0';
             bool currentWorkProgramm = true;
 
             while (currentWorkProgramm)
@@ -25,9 +24,9 @@ namespace Unior.Thems6
                     $"{CommandUnBannedPlayer} - Разбанить игрока\n" +
                     $"{CommandRemovePlayer} - удалить игрока\n" +
                     $"{CommandStopProgramm} - Выйти\n");
-                input = Console.ReadKey().KeyChar;
+                inputCommand = Console.ReadKey().KeyChar;
 
-                switch (input)
+                switch (inputCommand)
                 {
                     case CommandAddPlayer:
                         baseData.AddPlayer(baseData.ReadPlayer());
