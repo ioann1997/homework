@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Numerics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-//Реализовать базу данных игроков и методы для работы с ней. Должно быть консольное
-//меню для взаимодействия пользователя с возможностями базы данных.
-
-//Игрок должен состоять из уникального номера, ника, уровня и булевого значения, забанен ли игрок.
-
-//Реализовать возможность добавления игрока, бана игрока по уникальному номеру, разбана игрока по
-//уникальному номеру и удаление игрока по уникальному номеру.
-
-//Создавать полноценные системы баз данных не нужно, задание выполняется инструментами, которые вы уж
-//е изучили в рамках курса. Надо сделать класс "База данных".
 
 namespace Unior.Thems6
 {
     internal class HomeWork3
     {
-        public static void fg()
+        public static void Hm3()
         {
             const char CommandAddPlayer = '1';
             const char CommandBannedPlayer = '2';
@@ -33,6 +20,11 @@ namespace Unior.Thems6
 
             while (currentWorkProgramm)
             {
+                Console.WriteLine($"{CommandAddPlayer} - Добавить игрока\n" +
+                    $"{CommandBannedPlayer} - Забанить игрока\n" +
+                    $"{CommandUnBannedPlayer} - Разбанить игрока\n" +
+                    $"{CommandRemovePlayer} - удалить игрока\n" +
+                    $"{CommandStopProgramm} - Выйти\n");
                 input = Console.ReadKey().KeyChar;
 
                 switch (input)
@@ -42,21 +34,15 @@ namespace Unior.Thems6
                         break;
 
                     case CommandBannedPlayer:
-                        Console.WriteLine("Введите id: ");
-                        inputId = int.Parse(Console.ReadLine());
-                        baseData.BannedPlayer(inputId);
+                        baseData.BannedPlayer(ReadId());
                         break;
 
                     case CommandUnBannedPlayer:
-                        Console.WriteLine("Введите id: ");
-                        inputId = int.Parse(Console.ReadLine());
-                        baseData.UnBannedPlayer(inputId);
+                        baseData.UnBannedPlayer(ReadId());
                         break;
 
                     case CommandRemovePlayer:
-                        Console.WriteLine("Введите id: ");   
-                        inputId = int.Parse(Console.ReadLine());
-                        baseData.RemovePlayer(inputId);
+                        baseData.RemovePlayer(ReadId());
                         break;
 
                     case CommandStopProgramm:
@@ -64,8 +50,22 @@ namespace Unior.Thems6
                         break;
                 }
 
+                Console.Clear();
                 baseData.ShowBase();
+                Console.WriteLine();
             }
+        }
+        public static int ReadId()
+        {
+            int id = 0;
+            Console.Write("Введите id: ");
+
+            while (int.TryParse(Console.ReadLine(), out id) == false)
+            {
+                Console.WriteLine("Не верный id");
+            }
+
+            return id;
         }
     }
 
