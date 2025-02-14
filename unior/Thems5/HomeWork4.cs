@@ -48,30 +48,24 @@ namespace Unior.Thems5
 
         public static void ShowDossier( Dictionary<string, List<string>> dossier)
         {
-            foreach (var dossie in dossier)
+            foreach (var employee in dossier)
             {
-                foreach (var fullName in dossie.Value)
+                foreach (var fullName in employee.Value)
                 {
-                    Console.WriteLine($"Должность: {dossie.Key}  ФИО: {fullName}");
+                    Console.WriteLine($"Должность: {employee.Key}  ФИО: {fullName}");
                 }
             }
         }
 
         public static void RemoveDossier( Dictionary<string, List<string>> dossier)
-        {
-            Console.Write("Кого хотите уволить? ");
-            string fullName = Console.ReadLine();
-            
+        {   
             Console.Write("Какая у него должность? ");
             string post = Console.ReadLine();
 
-            int inedx = 0;
+            Console.Write("Какой у него номер? ");
+            int index = int.Parse(Console.ReadLine())-1;
 
-            while (inedx != -1)
-            {
-                dossier[post].Remove(fullName);
-                inedx = dossier[post].IndexOf(fullName);
-            }
+            dossier[post].RemoveAt(index);
 
             if (dossier[post].Count == 0)
             {
