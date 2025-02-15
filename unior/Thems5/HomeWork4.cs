@@ -5,7 +5,7 @@ namespace Unior.Thems5
 {
     internal class HomeWork4
     {
-        public static void Main()
+        public static void Hm4()
         {
             const char CommandAddDossier = '1';
             const char CommandShowDossier = '2';

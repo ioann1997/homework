@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Unior.Thems5
 {
@@ -12,21 +13,23 @@ namespace Unior.Thems5
 
             List<string> result = new List<string>();
 
-            string[] numbersUnion = new string[numbers1.Length + numbers2.Length];
-            numbers1.CopyTo(numbersUnion, 0);
-            numbers2.CopyTo(numbersUnion, numbers1.Length);
-
-            foreach (string number in numbersUnion)
-            {
-                if (result.Contains(number) == false)
-                { 
-                    result.Add(number);
-                }
-            }
-
+            CreatedUniqElemntList(numbers1, ref result);
+            CreatedUniqElemntList(numbers2, ref result);
+           
             foreach (string number in result)
             {
                 Console.WriteLine(number);
+            }
+        }
+
+        public static void CreatedUniqElemntList(string[] numbers, ref List<string> result)
+        {
+            foreach (string number in numbers)
+            {
+                if (result.Contains(number) == false)
+                {
+                    result.Add(number);
+                }
             }
         }
     }

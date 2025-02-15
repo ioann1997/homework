@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Xml.Linq;
 
 //ДЗ: Колода карт
 //Есть крупье(или игральный стол), который содержит колоду карт и игрока.
@@ -10,23 +12,14 @@ namespace Unior.Thems6
 {
     internal class HomeWork4
     {
-        public static void sfd()
+        public static void Main()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             Deck deck = new Deck();
-            Card[] cards = deck.Cards;
-
-            foreach (Card card in cards)
-            {
-                Console.Write($"{card}" + " ");
-            }
-
-            deck.ShuffleDeck(ref cards);
-
-            foreach (Card card in cards)
-            {
-                Console.Write($"{card}" + " ");
-            }
-
+            deck.deckShow();
+            deck.ShuffleDeck();
+            deck.deckShow();
         }
     }
 
@@ -36,9 +29,14 @@ namespace Unior.Thems6
         public char Suit;
 
         public Card(char value, char suit) 
-        { 
-            char Value = value;
+        {
+            this.Value = value;
             this.Suit = suit;
+        }
+
+        public override string ToString()
+        {
+            return $"{Suit}{Value}";
         }
     }
 
@@ -56,7 +54,7 @@ namespace Unior.Thems6
             char[] suits = { '♠', '♥', '♦', '♣' };
             char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
 
-            Card[] Cards = new Card[52];
+            Cards = new Card[52];
             int index = 0;
 
             foreach (char suit in suits)
@@ -70,10 +68,19 @@ namespace Unior.Thems6
             }
         }
 
-        public void ShuffleDeck(ref Card[] Cards)
+        public void ShuffleDeck()
         {
             Random random = new Random();
             random.Shuffle(Cards);
+        }
+
+        public void deckShow()
+        {
+            foreach(Card card in Cards)
+            {
+                Console.Write($"{card}" + " ");
+            }
+            Console.WriteLine();
         }
 
 
