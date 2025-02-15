@@ -5,7 +5,7 @@ namespace Unior.Thems5
 {
     internal class HomeWork4
     {
-        public static void Hm4()
+        public static void Main()
         {
             const char CommandAddDossier = '1';
             const char CommandShowDossier = '2';
@@ -68,21 +68,24 @@ namespace Unior.Thems5
             Console.Write("Какая у него должность? ");
             string post = Console.ReadLine();
 
-            Console.Write("Какой у него номер? ");
-            int index = ReadInt() - 1;
+            if (dossier.ContainsKey(post))
+            {
+                Console.Write("Какой у него номер? ");
+                int index = ReadInt() - 1;
 
-            if (index < dossier[post].Count && index >= 0)
-            {
-                dossier[post].RemoveAt(index);
-            }
-            else
-            {
-                Console.WriteLine("Нет такого номера работника");
-            }
+                if (index < dossier[post].Count && index >= 0)
+                {
+                    dossier[post].RemoveAt(index);
+                }
+                else
+                {
+                    Console.WriteLine("Нет такого номера работника");
+                }
 
-            if (dossier[post].Count == 0)
-            {
-                dossier.Remove(post);
+                if (dossier[post].Count == 0)
+                {
+                    dossier.Remove(post);
+                }
             }
         }
 

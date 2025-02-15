@@ -10,16 +10,36 @@ namespace Unior.Thems6
 {
     internal class HomeWork4
     {
-        public static void hm()
+        public static void sfd()
         {
-            
+            Deck deck = new Deck();
+            Card[] cards = deck.Cards;
+
+            foreach (Card card in cards)
+            {
+                Console.Write($"{card}" + " ");
+            }
+
+            deck.ShuffleDeck(ref cards);
+
+            foreach (Card card in cards)
+            {
+                Console.Write($"{card}" + " ");
+            }
+
         }
     }
 
     public class Card
     {
-        char Value;
-        char Suit;
+        public char Value;
+        public char Suit;
+
+        public Card(char value, char suit) 
+        { 
+            char Value = value;
+            this.Suit = suit;
+        }
     }
 
     public class PlayerHomeWork4
@@ -29,7 +49,34 @@ namespace Unior.Thems6
 
     public class Deck
     {
-        Card[] Cards;
+        public Card[] Cards;
+
+        public Deck() 
+        { 
+            char[] suits = { '♠', '♥', '♦', '♣' };
+            char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
+
+            Card[] Cards = new Card[52];
+            int index = 0;
+
+            foreach (char suit in suits)
+            {
+                foreach (char rank in ranks)
+                {
+                    Card card = new Card(rank, suit);
+                    Cards[index] = card;
+                    index++;
+                }
+            }
+        }
+
+        public void ShuffleDeck(ref Card[] Cards)
+        {
+            Random random = new Random();
+            random.Shuffle(Cards);
+        }
+
+
     }
 
     public class Dealer
