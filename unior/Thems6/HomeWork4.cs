@@ -12,7 +12,7 @@ namespace Unior.Thems6
 {
     internal class HomeWork4
     {
-        public static void Main()
+        public static void hm()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -42,7 +42,15 @@ namespace Unior.Thems6
 
     public class PlayerHomeWork4
     {
-        
+        public Card[] CardsHand;
+
+        //public PlayerHomeWork4 (int countCards)
+        //{
+        //    for (int i = 0; i < countCards; i++)
+        //    {
+        //        CardsHand[i] = new Card();
+        //    }
+        //}
     }
 
     public class Deck
@@ -88,7 +96,17 @@ namespace Unior.Thems6
 
     public class Dealer
     {
-        Deck[] Deck;
-        PlayerHomeWork4 Player;
+        Deck Deck;
+        PlayerHomeWork4[] Players;
+
+        public Dealer(int countPlayers) 
+        { 
+            this.Deck = new Deck();
+
+            for (int i = 0; i < countPlayers; i++)
+            {
+                Players[i] = new PlayerHomeWork4(); 
+            }
+        }
     }
 }
