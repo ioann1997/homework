@@ -1,22 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
+
+
+
+//2 - По удалению - а если ввести индекс, которого нет?
+
+
 
 namespace Unior.Thems5
 {
     internal class HomeWork4
     {
-        public static void Hm4()
+        public static void Main()
         {
             const char CommandAddDossier = '1';
             const char CommandShowDossier = '2';
             const char CommandRemoveDossier = '3';
             const char CommandExit = '4';
 
+            bool isCurrentWork = true;
+
             var dossier = new Dictionary<string, List<string>>();
 
             char input = '0';
 
-            while (input != CommandExit)
+            while (isCurrentWork)
             {
                 Console.WriteLine($"Выберите действие:\n{CommandAddDossier}) добавить досье\n{CommandShowDossier}) вывести все досье\n" +
                     $"{CommandRemoveDossier}) удалить досье\n{CommandExit}) выход ");
@@ -41,6 +51,7 @@ namespace Unior.Thems5
                         break;
 
                     case CommandExit:
+                        isCurrentWork = false;
                         break;
                 }
             }
@@ -48,11 +59,14 @@ namespace Unior.Thems5
 
         public static void ShowDossier( Dictionary<string, List<string>> dossier)
         {
+            int counter = 0;
+
             foreach (var employee in dossier)
             {
                 foreach (var fullName in employee.Value)
                 {
-                    Console.WriteLine($"Должность: {employee.Key}  ФИО: {fullName}");
+                    counter++;
+                    Console.WriteLine($"{counter} Должность: {employee.Key}  ФИО: {fullName}");
                 }
             }
         }
@@ -63,9 +77,16 @@ namespace Unior.Thems5
             string post = Console.ReadLine();
 
             Console.Write("Какой у него номер? ");
-            int index = int.Parse(Console.ReadLine())-1;
+            int index = ReadInt() - 1;
 
-            dossier[post].RemoveAt(index);
+            if (index < dossier[post].Count && index >= 0)
+            {
+                dossier[post].RemoveAt(index);
+            }
+            else
+            {
+                Console.WriteLine("Нет такого номера работника");
+            }
 
             if (dossier[post].Count == 0)
             {
@@ -92,6 +113,19 @@ namespace Unior.Thems5
             }
 
             dossier[post].Add(fullName);
+        }
+
+        public static int ReadInt()
+        {
+            int number = 0;
+            Console.Write("Введите число: ");
+
+            while (int.TryParse(Console.ReadLine(), out number) == false)
+            {
+                Console.WriteLine("Преобразование завершилось неудачно");
+            }
+
+            return number;
         }
     }
 }
