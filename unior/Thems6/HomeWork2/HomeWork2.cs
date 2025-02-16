@@ -12,23 +12,22 @@ namespace Unior.Thems6.HomeWork2
     }
     internal class Player
     {
-        public int PositionX { get; private set; }
-        public int PositionY { get; private set; }
-        public string View { get; private set; }
-
-        public Player(int positionX, int positionY, string view)
+        public Player(int positionX, int positionY, char symbol)
         {
             PositionX = positionX ;
             PositionY = positionY;
-            View = view;
+            Symbol = symbol;
         }
 
         public Player()
         {
             PositionX = 5;
             PositionY = 5;
-            View = "@";
+            Symbol = '@';
         }
+        public int PositionX { get; private set; }
+        public int PositionY { get; private set; }
+        public char Symbol { get; private set; }
     }
 
     internal class Renderer
@@ -37,7 +36,7 @@ namespace Unior.Thems6.HomeWork2
         {
             Console.CursorVisible = false;
             Console.SetCursorPosition(player.PositionX, player.PositionY);
-            Console.Write(player.View);
+            Console.Write(player.Symbol);
             Console.ReadKey(true);
         }
     }
