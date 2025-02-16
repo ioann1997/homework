@@ -6,36 +6,39 @@ namespace Unior.Thems6.HomeWork2
     {
         public static void Hm2()
         {
-            Player player = new Player();
-            player.ShowInfo();
+            Renderer renderer = new Renderer();
+            renderer.DrawPlayer(new Player());
         }
     }
     internal class Player
     {
-        private int _positionX;
-        private int _positionY;
-        private string _view;
+        public int PositionX { get; private set; }
+        public int PositionY { get; private set; }
+        public string View { get; private set; }
 
         public Player(int positionX, int positionY, string view)
         {
-            _positionX = positionX;
-            _positionY = positionY;
-            _view = view;
-        }
-        public Player()
-        {
-            _positionX = 5;
-            _positionY = 5;
-            _view = "@";
+            PositionX = positionX ;
+            PositionY = positionY;
+            View = view;
         }
 
-        public void ShowInfo()
+        public Player()
         {
-            for (int i = 0; i < _positionY - 1; i++)
-            {
-                Console.WriteLine(' ');
-            }
-            Console.Write(new string(' ', _positionX - 1) + _view);
+            PositionX = 5;
+            PositionY = 5;
+            View = "@";
+        }
+    }
+
+    internal class Renderer
+    {
+        public void DrawPlayer(Player player)
+        {
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(player.PositionX, player.PositionY);
+            Console.Write(player.View);
+            Console.ReadKey(true);
         }
     }
 }
