@@ -4,7 +4,7 @@ namespace Unior.Thems6.HomeWork1
 {
     internal class HomeWork1
     {
-        public static void Main()
+        public static void Hm1()
         {
             Player player = new Player();
             player.ShowInfo();
