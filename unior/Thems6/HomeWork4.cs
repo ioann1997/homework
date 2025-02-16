@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using System.Xml.Linq;
+
 
 //ДЗ: Колода карт
 //Есть крупье(или игральный стол), который содержит колоду карт и игрока.
@@ -12,7 +12,7 @@ namespace Unior.Thems6
 {
     internal class HomeWork4
     {
-        public static void hm()
+        public static void hm4()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -43,6 +43,11 @@ namespace Unior.Thems6
     public class PlayerHomeWork4
     {
         public Card[] CardsHand;
+
+        public PlayerHomeWork4(Card[] cardsDeal)
+        {
+            CardsHand = cardsDeal;
+        }
 
         //public PlayerHomeWork4 (int countCards)
         //{
@@ -99,14 +104,14 @@ namespace Unior.Thems6
         Deck Deck;
         PlayerHomeWork4[] Players;
 
-        public Dealer(int countPlayers) 
-        { 
-            this.Deck = new Deck();
+        //public Dealer(int countPlayers, int countCards) 
+        //{ 
+        //    this.Deck = new Deck();
 
-            for (int i = 0; i < countPlayers; i++)
-            {
-                Players[i] = new PlayerHomeWork4(); 
-            }
-        }
+        //    for (int i = 0; i < countPlayers; i++)
+        //    {
+        //        Players[i] = new PlayerHomeWork4(); 
+        //    }
+        //}
     }
 }
