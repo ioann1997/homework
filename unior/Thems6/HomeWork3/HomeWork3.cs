@@ -50,7 +50,7 @@ namespace Unior.Thems6.HomeWork3
                 }
 
                 Console.Clear();
-                baseData.ShowInfo();
+                baseData.ShowBase();
                 Console.WriteLine();
             }
         }
@@ -70,32 +70,27 @@ namespace Unior.Thems6.HomeWork3
 
     internal class Player
     {
-        private string _login;
-        private int _level;
-        private bool _isBan;
-
         public Player(string login, int level, bool isBan = false)
         {
-            this._login = login;
-            this._level = level;
-            _isBan = isBan;
+            Login = login;
+            Level = level;
+            IsBan = isBan;
         }
 
-        public void ShowPlayer()
-        {
-            Console.WriteLine($"{_login} {_level} {_isBan}");
-        }
+        public string Login { get; private set; }
+        public int Level { get; private set; }
+        public bool IsBan { get; set; }
     }
 
     internal class BaseData
     {
         public Dictionary<int, Player> Row;
 
-        public void ShowInfo()
+        public void ShowBase()
         {
             foreach (var player in Row)
             {
-                Console.WriteLine($"{player.Key} {player.Value._login} {player.Value._level} {player.Value._isBan}");
+                Console.WriteLine($"{player.Key} {player.Value.Login} {player.Value.Level} {player.Value.IsBan}");
             }
         }
 
@@ -127,7 +122,7 @@ namespace Unior.Thems6.HomeWork3
         {
             if (Row.ContainsKey(id))
             {
-                Row[id]._isBan = true;
+                Row[id].IsBan = true;
             }
         }
 
@@ -135,7 +130,7 @@ namespace Unior.Thems6.HomeWork3
         {
             if (Row.ContainsKey(id))
             {
-                Row[id]._isBan = false;
+                Row[id].IsBan = false;
             }
         }
 
