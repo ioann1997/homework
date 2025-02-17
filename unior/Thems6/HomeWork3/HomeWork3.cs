@@ -4,7 +4,7 @@ namespace Unior.Thems6.HomeWork3
 {
     internal class HomeWork3
     {
-        public static void Hm3()
+        public static void Main()
         {
             const char CommandAddPlayer = '1';
             const char CommandBannedPlayer = '2';
@@ -29,19 +29,19 @@ namespace Unior.Thems6.HomeWork3
                 switch (inputCommand)
                 {
                     case CommandAddPlayer:
-                        database.AddPlayer(database.ReadPlayer());
+                        database.AddPlayer(database.ParsePlayer());
                         break;
 
                     case CommandBannedPlayer:
-                        database.BanPlayer(ReadId());
+                        database.BanPlayer();
                         break;
 
                     case CommandUnBannedPlayer:
-                        database.UnbanPlayer(ReadId());
+                        database.UnbanPlayer();
                         break;
 
                     case CommandRemovePlayer:
-                        database.RemovePlayer(ReadId());
+                        database.RemovePlayer();
                         break;
 
                     case CommandStopProgramm:
@@ -53,19 +53,6 @@ namespace Unior.Thems6.HomeWork3
                 database.ShowInfo();
                 Console.WriteLine();
             }
-        }
-
-        public static int ReadId()
-        {
-            int id = 0;
-            Console.Write("Введите id: ");
-
-            while (int.TryParse(Console.ReadLine(), out id) == false)
-            {
-                Console.WriteLine("Не верный id");
-            }
-
-            return id;
         }
     }
 
@@ -84,24 +71,24 @@ namespace Unior.Thems6.HomeWork3
         public int Level { get; private set; }
         public bool IsBanned { get; private set; }
 
-        public bool Ban() => IsBanned = true;
-        public bool Unban() => IsBanned = false;
+        public void Ban() => IsBanned = true;
+        public void Unban() => IsBanned = false;
     }
 
     internal class Database
     {
-        public List<Player> Row { get; private set; }
-        public int LastId { get; private set; }
+        private List<Player> Players;
+        private int LastId;
 
         public Database()
         {
-            Row = new List<Player>();
+            Players = new List<Player>();
             LastId = 0;
         }
 
         public void ShowInfo()
         {
-            foreach (Player player in Row)
+            foreach (Player player in Players)
             {
                 Console.WriteLine($"{player.Id} {player.Login} {player.Level} {player.IsBanned}");
             }
@@ -109,11 +96,11 @@ namespace Unior.Thems6.HomeWork3
 
         public void AddPlayer(Player player)
         {
-                Row.Add(player);
+                Players.Add(player);
                 LastId++;
         }
 
-        public Player ReadPlayer()
+        public Player ParsePlayer()
         {
             Console.WriteLine("Введите имя и уровень игрока (через пробел)");
             string[] input = Console.ReadLine().Split();
@@ -123,37 +110,77 @@ namespace Unior.Thems6.HomeWork3
             return player;
         }
 
-        public void BanPlayer(int id)
+        public void BanPlayer()
         {
-            foreach (Player player in Row)
-            {
-                if (player.Id == id)
-                {
-                    player.Ban();
-                }
+            if (TryGetPlayer(ReadId(), out Player player))
+            { 
+                player.Ban();
             }
         }
 
-        public void UnbanPlayer(int id)
+        public void UnbanPlayer()
         {
-            foreach (Player player in Row)
+            if (TryGetPlayer(ReadId(), out Player player))
             {
-                if (player.Id == id)
-                {
-                    player.Unban();
-                }
+                player.Unban();
+            }
+
+        }
+
+        public void RemovePlayer()
+        {
+            if (TryGetPlayer(ReadId(), out Player player))
+            {
+                Players.Remove(player);
             }
         }
 
-        public void RemovePlayer(int id)
+        private bool TryGetPlayer(int playerId, out Player player)
         {
-            for (int i = 0; i < Row.Count; i++)
+            player = null;
+
+            foreach (Player elementPlayer in Players)
             {
-                if (Row[i].Id == id)
+                if (elementPlayer.Id == playerId)
                 {
-                    Row.RemoveAt(i);
+                    player = elementPlayer;
+                    return true; 
                 }
             }
+
+            return false; 
+        }
+
+        private int ReadId()
+        {
+            int id = 0;
+            Console.Write("Введите id: ");
+
+            while (int.TryParse(Console.ReadLine(), out id) == false)
+            {
+                Console.WriteLine("Не верный id");
+            }
+
+            return id;
         }
     }
 }
+
+
+
+//public bool BanPlayer(int playerId)
+//{
+//    if (TryGetPlayer(playerId, out Player player))
+//    {
+//        player.Ban(); // Предполагается, что у Player есть метод Ban()
+//        return true;
+//    }
+//    else
+//    {
+
+//        Console.WriteLine($"Игрок с ID {playerId} не найден.");
+//        return false;
+//    }
+//}
+
+

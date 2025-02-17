@@ -1,39 +1,48 @@
 ﻿using System;
 using System.Text;
 
-//ДЗ: Колода карт
-//Есть крупье(или игральный стол), который содержит колоду карт и игрока.
-//Пользователь задает количество карт, которое надо получить игроку и крупье передает из колоды в игрока данное количество карт. 
-//После выводится вся информация о картах игрока. 
-//Будут классы: Крупье, Игрок, Колода, Карта.
-
-namespace Unior.Thems6
+namespace Unior.Thems6.HomeWork4
 {
     internal class HomeWork4
     {
-        public static void Main()
+        public static void Hm4()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            Deck deck = new Deck();
-            deck.ShowInfo();
+            int countHand = ReadInt();
+
+            Dealer dealer = new Dealer(5);
+            dealer.ShowInfo();
+        }
+
+        public static int ReadInt()
+        {
+            int number = 0;
+            Console.Write("Введите кол-во карт: ");
+
+            while (int.TryParse(Console.ReadLine(), out number) == false)
+            {
+                Console.WriteLine("Вы ввели не число");
+            }
+
+            return number;
         }
     }
 
     internal class Card
     {
-        public char Rank;
-        public char Suit;
+        private char _rank;
+        private char _suit;
 
-        public Card(char value, char suit) 
+        public Card(char value, char suit)
         {
-            this.Rank = value;
-            this.Suit = suit;
+            _rank = value;
+            _suit = suit;
         }
 
         public override string ToString()
         {
-            return $"{Suit}{Rank}";
+            return $"{_suit}{_rank}";
         }
     }
 
@@ -49,8 +58,8 @@ namespace Unior.Thems6
 
     internal class Deck
     {
-        public Deck() 
-        { 
+        public Deck()
+        {
             char[] suits = { '♠', '♥', '♦', '♣' };
             char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
 
@@ -91,7 +100,7 @@ namespace Unior.Thems6
 
         public void ShowInfo()
         {
-            foreach(Card card in Cards)
+            foreach (Card card in Cards)
             {
                 Console.Write($"{card}" + " ");
             }
@@ -101,19 +110,28 @@ namespace Unior.Thems6
 
     internal class Dealer
     {
-        public Deck Deck;
-        public Player Player;
-        public int CountCards;
+        private Deck _deck;
+        private Player _player;
+        private int _countCards;
 
         public Dealer(int countCards)
         {
-            this.Deck = new Deck();
+            _deck = new Deck();
 
             List<Card> cardsDeals = new List<Card>();
-            cardsDeals = Deck.Cards.GetRange(0, countCards);
+            cardsDeals = _deck.Cards.GetRange(0, countCards);
 
-            this.Player = new Player(cardsDeals);
+            _player = new Player(cardsDeals);
 
+        }
+
+        public void ShowInfo()
+        {
+            foreach (Card card in _player.CardsHand)
+            {
+                Console.Write($"{card}" + " ");
+            }
+            Console.WriteLine();
         }
     }
 }
