@@ -167,20 +167,3 @@ namespace Unior.Thems6.HomeWork3
 }
 
 
-
-//public bool BanPlayer(int playerId)
-//{
-//    if (TryGetPlayer(playerId, out Player player))
-//    {
-//        player.Ban(); // Предполагается, что у Player есть метод Ban()
-//        return true;
-//    }
-//    else
-//    {
-
-//        Console.WriteLine($"Игрок с ID {playerId} не найден.");
-//        return false;
-//    }
-//}
-
-
