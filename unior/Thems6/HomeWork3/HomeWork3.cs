@@ -12,12 +12,12 @@ namespace Unior.Thems6.HomeWork3
             const char CommandRemovePlayer = '4';
             const char CommandStopProgramm = '5';
 
-            BaseData baseData = new BaseData();
+            Database database = new Database();
 
             char inputCommand = '0';
-            bool currentWorkProgramm = true;
+            bool isCurrentWorkProgramm = true;
 
-            while (currentWorkProgramm)
+            while (isCurrentWorkProgramm)
             {
                 Console.WriteLine($"{CommandAddPlayer} - Добавить игрока\n" +
                     $"{CommandBannedPlayer} - Забанить игрока\n" +
@@ -29,31 +29,32 @@ namespace Unior.Thems6.HomeWork3
                 switch (inputCommand)
                 {
                     case CommandAddPlayer:
-                        baseData.AddPlayer(baseData.ReadPlayer());
+                        database.AddPlayer(database.ReadPlayer());
                         break;
 
                     case CommandBannedPlayer:
-                        baseData.BannedPlayer(ReadId());
+                        database.BanPlayer(ReadId());
                         break;
 
                     case CommandUnBannedPlayer:
-                        baseData.UnBannedPlayer(ReadId());
+                        database.UnbanPlayer(ReadId());
                         break;
 
                     case CommandRemovePlayer:
-                        baseData.RemovePlayer(ReadId());
+                        database.RemovePlayer(ReadId());
                         break;
 
                     case CommandStopProgramm:
-                        currentWorkProgramm = false;
+                        isCurrentWorkProgramm = false;
                         break;
                 }
 
                 Console.Clear();
-                baseData.ShowBase();
+                database.ShowInfo();
                 Console.WriteLine();
             }
         }
+
         public static int ReadId()
         {
             int id = 0;
@@ -70,41 +71,46 @@ namespace Unior.Thems6.HomeWork3
 
     internal class Player
     {
-        public Player(string login, int level, bool isBan = false)
+        public Player(int id,string login, int level, bool isBanned = false)
         {
+            Id = id;
             Login = login;
             Level = level;
-            IsBan = isBan;
+            IsBanned = isBanned;
         }
 
+        public int Id { get; private set; }
         public string Login { get; private set; }
         public int Level { get; private set; }
-        public bool IsBan { get; set; }
+        public bool IsBanned { get; private set; }
+
+        public bool Ban() => IsBanned = true;
+        public bool Unban() => IsBanned = false;
     }
 
-    internal class BaseData
+    internal class Database
     {
-        public Dictionary<int, Player> Row;
+        public List<Player> Row { get; private set; }
+        public int LastId { get; private set; }
 
-        public void ShowBase()
+        public Database()
         {
-            foreach (var player in Row)
+            Row = new List<Player>();
+            LastId = 0;
+        }
+
+        public void ShowInfo()
+        {
+            foreach (Player player in Row)
             {
-                Console.WriteLine($"{player.Key} {player.Value.Login} {player.Value.Level} {player.Value.IsBan}");
+                Console.WriteLine($"{player.Id} {player.Login} {player.Level} {player.IsBanned}");
             }
         }
 
         public void AddPlayer(Player player)
         {
-            if (Row == null)
-            {
-                Row = new Dictionary<int, Player>()
-                { {1, player } };
-            }
-            else
-            {
-                Row.Add(FindMaxKey(Row) + 1, player);
-            }
+                Row.Add(player);
+                LastId++;
         }
 
         public Player ReadPlayer()
@@ -112,49 +118,42 @@ namespace Unior.Thems6.HomeWork3
             Console.WriteLine("Введите имя и уровень игрока (через пробел)");
             string[] input = Console.ReadLine().Split();
 
-            Player player = new Player(input[0], Convert.ToInt16(input[1]));
+            Player player = new Player(LastId, input[0], Convert.ToInt16(input[1]));
 
             return player;
-
         }
 
-        public void BannedPlayer(int id)
+        public void BanPlayer(int id)
         {
-            if (Row.ContainsKey(id))
+            foreach (Player player in Row)
             {
-                Row[id].IsBan = true;
+                if (player.Id == id)
+                {
+                    player.Ban();
+                }
             }
         }
 
-        public void UnBannedPlayer(int id)
+        public void UnbanPlayer(int id)
         {
-            if (Row.ContainsKey(id))
+            foreach (Player player in Row)
             {
-                Row[id].IsBan = false;
+                if (player.Id == id)
+                {
+                    player.Unban();
+                }
             }
         }
 
         public void RemovePlayer(int id)
         {
-            if (Row.ContainsKey(id))
+            for (int i = 0; i < Row.Count; i++)
             {
-                Row.Remove(id);
-            }
-        }
-
-        private static int FindMaxKey(Dictionary<int, Player> data)
-        {
-            int maxKey = 0;
-
-            foreach (int id in data.Keys)
-            {
-                if (id > maxKey)
+                if (Row[i].Id == id)
                 {
-                    maxKey = id;
+                    Row.RemoveAt(i);
                 }
             }
-
-            return maxKey;
         }
     }
 }

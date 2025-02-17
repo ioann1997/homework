@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 
-
 //ДЗ: Колода карт
 //Есть крупье(или игральный стол), который содержит колоду карт и игрока.
 //Пользователь задает количество карт, которое надо получить игроку и крупье передает из колоды в игрока данное количество карт. 
@@ -12,82 +11,85 @@ namespace Unior.Thems6
 {
     internal class HomeWork4
     {
-        public static void hm4()
+        public static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
             Deck deck = new Deck();
-            deck.deckShow();
-            deck.ShuffleDeck();
-            deck.deckShow();
+            deck.ShowInfo();
         }
     }
 
-    public class Card
+    internal class Card
     {
-        public char Value;
+        public char Rank;
         public char Suit;
 
         public Card(char value, char suit) 
         {
-            this.Value = value;
+            this.Rank = value;
             this.Suit = suit;
         }
 
         public override string ToString()
         {
-            return $"{Suit}{Value}";
+            return $"{Suit}{Rank}";
         }
     }
 
-    public class PlayerHomeWork4
+    internal class Player
     {
-        public Card[] CardsHand;
+        public List<Card> CardsHand;
 
-        public PlayerHomeWork4(Card[] cardsDeal)
+        public Player(List<Card> cardsDeal)
         {
             CardsHand = cardsDeal;
         }
-
-        //public PlayerHomeWork4 (int countCards)
-        //{
-        //    for (int i = 0; i < countCards; i++)
-        //    {
-        //        CardsHand[i] = new Card();
-        //    }
-        //}
     }
 
-    public class Deck
+    internal class Deck
     {
-        public Card[] Cards;
-
         public Deck() 
         { 
             char[] suits = { '♠', '♥', '♦', '♣' };
             char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
 
-            Cards = new Card[52];
-            int index = 0;
+            Cards = new List<Card>();
 
             foreach (char suit in suits)
             {
                 foreach (char rank in ranks)
                 {
                     Card card = new Card(rank, suit);
-                    Cards[index] = card;
-                    index++;
+                    Cards.Add(card);
+                }
+            }
+
+            Shuffle();
+        }
+
+        public List<Card> Cards { get; private set; }
+
+        private void Shuffle()
+        {
+            Random random = new Random();
+
+            int length = Cards.Count;
+
+            for (int i = 0; i < length - 1; i++)
+            {
+                int indexNew = random.Next(i, length);
+
+                if (indexNew != i)
+                {
+                    Card temp = Cards[i];
+                    Cards[i] = Cards[indexNew];
+                    Cards[indexNew] = temp;
                 }
             }
         }
 
-        public void ShuffleDeck()
-        {
-            Random random = new Random();
-            random.Shuffle(Cards);
-        }
-
-        public void deckShow()
+        public void ShowInfo()
         {
             foreach(Card card in Cards)
             {
@@ -95,23 +97,23 @@ namespace Unior.Thems6
             }
             Console.WriteLine();
         }
-
-
     }
 
-    public class Dealer
+    internal class Dealer
     {
-        Deck Deck;
-        PlayerHomeWork4[] Players;
+        public Deck Deck;
+        public Player Player;
+        public int CountCards;
 
-        //public Dealer(int countPlayers, int countCards) 
-        //{ 
-        //    this.Deck = new Deck();
+        public Dealer(int countCards)
+        {
+            this.Deck = new Deck();
 
-        //    for (int i = 0; i < countPlayers; i++)
-        //    {
-        //        Players[i] = new PlayerHomeWork4(); 
-        //    }
-        //}
+            List<Card> cardsDeals = new List<Card>();
+            cardsDeals = Deck.Cards.GetRange(0, countCards);
+
+            this.Player = new Player(cardsDeals);
+
+        }
     }
 }
