@@ -4,7 +4,7 @@ namespace Unior.Thems6.HomeWork3
 {
     internal class HomeWork3
     {
-        public static void Main()
+        public static void Hm3()
         {
             const char CommandAddPlayer = '1';
             const char CommandBannedPlayer = '2';
@@ -29,7 +29,7 @@ namespace Unior.Thems6.HomeWork3
                 switch (inputCommand)
                 {
                     case CommandAddPlayer:
-                        database.AddPlayer(database.ParsePlayer());
+                        database.AddPlayer();
                         break;
 
                     case CommandBannedPlayer:
@@ -77,37 +77,32 @@ namespace Unior.Thems6.HomeWork3
 
     internal class Database
     {
-        private List<Player> Players;
-        private int LastId;
+        private List<Player> _players;
+        private int _lastId;
 
         public Database()
         {
-            Players = new List<Player>();
-            LastId = 0;
+            _players = new List<Player>();
+            _lastId = 0;
         }
 
         public void ShowInfo()
         {
-            foreach (Player player in Players)
+            foreach (Player player in _players)
             {
                 Console.WriteLine($"{player.Id} {player.Login} {player.Level} {player.IsBanned}");
             }
         }
 
-        public void AddPlayer(Player player)
-        {
-                Players.Add(player);
-                LastId++;
-        }
-
-        public Player ParsePlayer()
+        public void AddPlayer()
         {
             Console.WriteLine("Введите имя и уровень игрока (через пробел)");
             string[] input = Console.ReadLine().Split();
 
-            Player player = new Player(LastId, input[0], Convert.ToInt16(input[1]));
+            Player player = new Player(_lastId, input[0], Convert.ToInt16(input[1]));
 
-            return player;
+            _players.Add(player);
+            _lastId++;
         }
 
         public void BanPlayer()
@@ -131,7 +126,7 @@ namespace Unior.Thems6.HomeWork3
         {
             if (TryGetPlayer(ReadId(), out Player player))
             {
-                Players.Remove(player);
+                _players.Remove(player);
             }
         }
 
@@ -139,7 +134,7 @@ namespace Unior.Thems6.HomeWork3
         {
             player = null;
 
-            foreach (Player elementPlayer in Players)
+            foreach (Player elementPlayer in _players)
             {
                 if (elementPlayer.Id == playerId)
                 {

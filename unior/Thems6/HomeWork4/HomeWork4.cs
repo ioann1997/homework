@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Unior.Thems6.HomeWork4;
 
 namespace Unior.Thems6.HomeWork4
 {
@@ -11,7 +12,9 @@ namespace Unior.Thems6.HomeWork4
 
             int countHand = ReadInt();
 
-            Dealer dealer = new Dealer(5);
+            Dealer dealer = new Dealer();
+            dealer.ShowInfo();
+            dealer.StartGame(countHand);
             dealer.ShowInfo();
         }
 
@@ -48,17 +51,28 @@ namespace Unior.Thems6.HomeWork4
 
     internal class Player
     {
-        public List<Card> CardsHand;
+        private List<Card> _cards;
 
-        public Player(List<Card> cardsDeal)
+        public Player()
         {
-            CardsHand = cardsDeal;
+            _cards = new List<Card>();
         }
+
+        public List<Card>  Cards { get { return _cards; } }
+
+        public void GetCards(List<Card> cardsDeal) => _cards = cardsDeal;
     }
 
     internal class Deck
     {
         public Deck()
+        {
+            Generate();
+        }
+
+        public List<Card> Cards { get; private set; }
+
+        private void Generate()
         {
             char[] suits = { '♠', '♥', '♦', '♣' };
             char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
@@ -76,8 +90,6 @@ namespace Unior.Thems6.HomeWork4
 
             Shuffle();
         }
-
-        public List<Card> Cards { get; private set; }
 
         private void Shuffle()
         {
@@ -97,41 +109,44 @@ namespace Unior.Thems6.HomeWork4
                 }
             }
         }
-
-        public void ShowInfo()
-        {
-            foreach (Card card in Cards)
-            {
-                Console.Write($"{card}" + " ");
-            }
-            Console.WriteLine();
-        }
     }
 
     internal class Dealer
     {
         private Deck _deck;
         private Player _player;
-        private int _countCards;
 
-        public Dealer(int countCards)
+        public Dealer()
         {
             _deck = new Deck();
+            _player = new Player();
+        }
 
+        public void StartGame(int countCards)
+        {
             List<Card> cardsDeals = new List<Card>();
             cardsDeals = _deck.Cards.GetRange(0, countCards);
 
-            _player = new Player(cardsDeals);
-
+            _deck.Cards.RemoveRange(0, countCards);
+            _player.GetCards(cardsDeals);
         }
 
         public void ShowInfo()
         {
-            foreach (Card card in _player.CardsHand)
+            if (_player.Cards != null && _player.Cards.Count > 0)
             {
-                Console.Write($"{card}" + " ");
+                foreach (Card card in _player.Cards)
+                {
+                    Console.Write($"{card}" + " ");
+                }
+                Console.WriteLine();
             }
-            Console.WriteLine();
+            else
+            {
+                Console.WriteLine("У игрока нет карт.");
+            }
+
+            Console.WriteLine($"В колоде осталось {_deck.Cards.Count} карт.");
         }
     }
 }
