@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Unior.Thems6.HomeWork4;
 
 namespace Unior.Thems6.HomeWork4
 {
@@ -12,7 +11,7 @@ namespace Unior.Thems6.HomeWork4
 
             int countHand = ReadInt();
 
-            Dealer dealer = new Dealer();
+            Сroupier dealer = new Сroupier();
             dealer.ShowInfo();
             dealer.StartGame(countHand);
             dealer.ShowInfo();
@@ -57,85 +56,18 @@ namespace Unior.Thems6.HomeWork4
         {
             _cards = new List<Card>();
         }
-
-        public List<Card>  Cards { get { return _cards; } }
-
-        public void GetCards(List<Card> cardsDeal) => _cards = cardsDeal;
-    }
-
-    internal class Deck
-    {
-        public Deck()
+        public List<Card> SetCards
         {
-            Generate();
+            set => _cards = value;
         }
 
-        public List<Card> Cards { get; private set; }
-
-        private void Generate()
-        {
-            char[] suits = { '♠', '♥', '♦', '♣' };
-            char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
-
-            Cards = new List<Card>();
-
-            foreach (char suit in suits)
-            {
-                foreach (char rank in ranks)
-                {
-                    Card card = new Card(rank, suit);
-                    Cards.Add(card);
-                }
-            }
-
-            Shuffle();
-        }
-
-        private void Shuffle()
-        {
-            Random random = new Random();
-
-            int length = Cards.Count;
-
-            for (int i = 0; i < length - 1; i++)
-            {
-                int indexNew = random.Next(i, length);
-
-                if (indexNew != i)
-                {
-                    Card temp = Cards[i];
-                    Cards[i] = Cards[indexNew];
-                    Cards[indexNew] = temp;
-                }
-            }
-        }
-    }
-
-    internal class Dealer
-    {
-        private Deck _deck;
-        private Player _player;
-
-        public Dealer()
-        {
-            _deck = new Deck();
-            _player = new Player();
-        }
-
-        public void StartGame(int countCards)
-        {
-            List<Card> cardsDeals = new List<Card>();
-            cardsDeals = _deck.Cards.GetRange(0, countCards);
-
-            _deck.Cards.RemoveRange(0, countCards);
-            _player.GetCards(cardsDeals);
-        }
+        public bool IsCardEmpty => _cards == null || _cards.Count == 0;
 
         public void ShowInfo()
         {
-            if (_player.Cards != null && _player.Cards.Count > 0)
+            if (IsCardEmpty == false)
             {
-                foreach (Card card in _player.Cards)
+                foreach (Card card in _cards)
                 {
                     Console.Write($"{card}" + " ");
                 }
@@ -144,9 +76,89 @@ namespace Unior.Thems6.HomeWork4
             else
             {
                 Console.WriteLine("У игрока нет карт.");
+            }        
+        }
+    }
+
+    internal class Deck
+    {
+        private List<Card> _cards;
+        public Deck()
+        {
+            _cards = Generate();
+        }
+
+        public int Count { get{ return _cards.Count;} }
+
+        public List<Card> DealCard(int countCards)
+        {
+            List<Card> cardsDeals = new List<Card>();
+            cardsDeals = _cards.GetRange(0, countCards);
+            _cards.RemoveRange(0, countCards);
+
+            return cardsDeals;
+        }
+
+        private List<Card> Generate()
+        {
+            char[] suits = { '♠', '♥', '♦', '♣' };
+            char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
+
+            _cards = new List<Card>();
+
+            foreach (char suit in suits)
+            {
+                foreach (char rank in ranks)
+                {
+                    Card card = new Card(rank, suit);
+                    _cards.Add(card);
+                }
             }
 
-            Console.WriteLine($"В колоде осталось {_deck.Cards.Count} карт.");
+            Shuffle();
+            return _cards;
+        }
+
+        private void Shuffle()
+        {
+            Random random = new Random();
+
+            int length = _cards.Count;
+
+            for (int i = 0; i < length - 1; i++)
+            {
+                int indexNew = random.Next(i, length);
+
+                if (indexNew != i)
+                {
+                    Card temp = _cards[i];
+                    _cards[i] = _cards[indexNew];
+                    _cards[indexNew] = temp;
+                }
+            }
+        }
+    }
+
+    internal class Сroupier
+    {
+        private Deck _deck;
+        private Player _player;
+
+        public Сroupier()
+        {
+            _deck = new Deck();
+            _player = new Player();
+        }
+
+        public void StartGame(int countCards)
+        {
+            _player.SetCards = _deck.DealCard(countCards);
+        }
+
+        public void ShowInfo()
+        {
+            _player.ShowInfo();
+            Console.WriteLine($"В колоде осталось {_deck.Count} карт.");
         }
     }
 }
