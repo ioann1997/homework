@@ -89,7 +89,6 @@ namespace Unior.Thems6.HomeWork4
         private List<Card> _cards;
         public Deck()
         {
-            //_cards = Generate();
             _cards = new List<Card>();
         }
 
