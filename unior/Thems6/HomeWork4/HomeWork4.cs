@@ -56,9 +56,13 @@ namespace Unior.Thems6.HomeWork4
         {
             _cards = new List<Card>();
         }
-        public List<Card> SetCards
+
+        public void TakeCards(List<Card> cards)
         {
-            set => _cards = value;
+            foreach (Card card in cards)
+            {
+                _cards.Add(card);
+            }
         }
 
         public bool IsCardEmpty => _cards == null || _cards.Count == 0;
@@ -152,7 +156,7 @@ namespace Unior.Thems6.HomeWork4
 
         public void StartGame(int countCards)
         {
-            _player.SetCards = _deck.DealCard(countCards);
+            _player.TakeCards(_deck.DealCard(countCards));
         }
 
         public void ShowInfo()

@@ -17,7 +17,7 @@ namespace Unior.Thems6.HomeWork5
 {
     internal class HomeWork5
     {
-        public static void Hm5()
+        public static void s()
         {
             //var property = book.GetType().GetProperty(propertyName);
         }
@@ -59,7 +59,7 @@ namespace Unior.Thems6.HomeWork5
         {
             foreach (Book book in _books)
             {
-                Console.WriteLine($"{book.Name} {book.Author} {book.YearPublished}");
+                Console.WriteLine(book.ToString());
             }
         }
 
@@ -73,15 +73,23 @@ namespace Unior.Thems6.HomeWork5
             _books.Add(book);
         }
 
+        private void Find(int parametr)
+        {
+            foreach (Book book in _books)
+            {
+              //  book[parametr];
+            }
+        }
+
         public void FindBook()
         {
-            const char CommandTitle = '0';
-            const char CommandAuthor = '1';
-            const char CommandYearPlayer = '2';
+            const int CommandTitle = 0;
+            const int CommandAuthor = 1;
+            const int CommandYearPlayer = 2;
 
             Console.WriteLine($"Как вы хотите найти книгу:\n{CommandTitle} - по автору\n" +
                 $"{CommandAuthor} - по названию\n {CommandYearPlayer} - по году выпуска ");
-            char parametr = Console.ReadKey().KeyChar;
+            int parametr = int.Parse(Console.ReadKey().KeyChar.ToString());
 
             switch (parametr)
             {
@@ -107,23 +115,31 @@ namespace Unior.Thems6.HomeWork5
 
             }
         }
-        private bool TryGetBook(string propertyName, string propertyValue, out Book book)
-        {
-            book = null;
+        //private bool TryGetBook(int playerId, out Player player)
+        //{
+        //    player = null;
 
-            foreach (Book elementBook in _books)
-            {
-                var property = elementBook.GetType().GetProperty(propertyName);
-                if (property == null)
-                {
-                    Console.WriteLine($"Свойство '{propertyName}' не найдено.");
-                    return false;
-                }
+        //    foreach (Player elementPlayer in _players)
+        //    {
+        //        if (elementPlayer.Id == playerId)
+        //        {
+        //            player = elementPlayer;
+        //            return true;
+        //        }
+        //    }
 
-                var value = property.GetValue(elementBook)?.ToString();
-            }
-
-            return false;
-        }
+        //    return false;
+        //}
     }
 }
+
+//int result1 = DoOperation(6, DoubleNumber); // 12
+//Console.WriteLine(result1);
+
+//int result2 = DoOperation(6, SquareNumber); // 36
+//Console.WriteLine(result2);
+
+//int DoOperation(int n, Func<int, int> operation) => operation(n);
+//int DoubleNumber(int n) => 2 * n;
+//int SquareNumber(int n) => n * n;
+//int SquareNumber(int n) => n * n;
