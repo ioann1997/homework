@@ -5,7 +5,7 @@ namespace Unior.Thems6.HomeWork4
 {
     internal class HomeWork4
     {
-        public static void Hm4()
+        public static void Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -13,7 +13,7 @@ namespace Unior.Thems6.HomeWork4
 
             Сroupier dealer = new Сroupier();
             dealer.ShowInfo();
-            dealer.StartGame(countHand);
+            dealer.PlayGame(countHand);
             dealer.ShowInfo();
         }
 
@@ -89,26 +89,35 @@ namespace Unior.Thems6.HomeWork4
         private List<Card> _cards;
         public Deck()
         {
-            _cards = Generate();
+            //_cards = Generate();
+            _cards = new List<Card>();
         }
 
-        public int Count { get{ return _cards.Count;} }
+        public int Count => _cards.Count;
 
         public List<Card> DealCard(int countCards)
         {
-            List<Card> cardsDeals = new List<Card>();
-            cardsDeals = _cards.GetRange(0, countCards);
-            _cards.RemoveRange(0, countCards);
+            if (_cards.Count >= countCards)
+            {
+                List<Card> cardsDeals = new List<Card>();
+                cardsDeals = _cards.GetRange(0, countCards);
+                _cards.RemoveRange(0, countCards);
 
-            return cardsDeals;
+                return cardsDeals;
+            }
+            else
+            {
+                Console.WriteLine("В колоде не хватает карт");
+                return [];
+            }
         }
 
-        private List<Card> Generate()
+        public void Generate()
         {
+            _cards = new List<Card>();
+
             char[] suits = { '♠', '♥', '♦', '♣' };
             char[] ranks = { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
-
-            _cards = new List<Card>();
 
             foreach (char suit in suits)
             {
@@ -118,12 +127,9 @@ namespace Unior.Thems6.HomeWork4
                     _cards.Add(card);
                 }
             }
-
-            Shuffle();
-            return _cards;
         }
 
-        private void Shuffle()
+        public void Shuffle()
         {
             Random random = new Random();
 
@@ -154,8 +160,10 @@ namespace Unior.Thems6.HomeWork4
             _player = new Player();
         }
 
-        public void StartGame(int countCards)
+        public void PlayGame(int countCards)
         {
+            _deck.Generate();
+            _deck.Shuffle();
             _player.TakeCards(_deck.DealCard(countCards));
         }
 
