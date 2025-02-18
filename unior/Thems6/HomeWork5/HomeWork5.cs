@@ -1,25 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//ДЗ: Хранилище книг
-//Создать хранилище книг. 
-//Каждая книга имеет название, автора и год выпуска (можно добавить еще параметры).
-//В хранилище можно добавить книгу, убрать книгу, показать все книги и показать найденные
-//книги по указанному параметру (по названию, по автору, по году выпуска).
-
-//Пример поиска.
-//Выбирается поиск по названию, вводится название и показываются все книги с данным названием.
 
 namespace Unior.Thems6.HomeWork5
 {
     internal class HomeWork5
     {
-        public static void s()
+        public static void Main()
         {
-            //var property = book.GetType().GetProperty(propertyName);
+            const char CommandAddBook = '1';
+            const char CommandFindBook = '2';
+            const char CommandRemoveBook = '3';
+            const char CommandShowAllBook = '4';
+            const char CommandStopProgramm = '5';
+
+            Library library = new Library();
+
+            Book book = new Book("Война и мир", "Лев Толстой", 1869);
+
+            library.AddBook(new Book("Война и мир", "Лев Толстой", 1869));
+            library.AddBook(new Book("Анна Каренина", "Лев Толстой", 1877 ));
+            library.AddBook(new Book("Преступление и наказание","Федор Достоевский", 1866 ));
+            library.AddBook(new Book("Война и мир", "Лев Толстой", 1965 ));
+
+            char inputCommand = '0';
+            bool isCurrentWorkProgramm = true;
+
+            while (isCurrentWorkProgramm)
+            {
+                Console.WriteLine($"{CommandAddBook} - Добавить книгу\n" +
+                    $"{CommandFindBook} - Найти книгу\n" +
+                    $"{CommandRemoveBook} - Удалить книгу\n" +
+                    $"{CommandShowAllBook} - Показать все книги\n" +
+                    $"{CommandStopProgramm} - Выйти\n");
+                inputCommand = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+
+                switch (inputCommand)
+                {
+                    case CommandAddBook:
+                        library.AddBook(new Book());
+                        break;
+
+                    case CommandFindBook:
+                        library.FindBook();
+                        break;
+
+                    case CommandShowAllBook:
+                        library.ShowAllBooks();
+                        break;
+
+                    case CommandRemoveBook:
+                        library.RemoveBook();
+                        break;
+
+                    case CommandStopProgramm:
+                        isCurrentWorkProgramm = false;
+                        break;
+                }
+
+                //Console.Clear();
+                //library.ShowAllBooks();
+                Console.WriteLine();
+            }
         }
     }
 
@@ -31,14 +73,46 @@ namespace Unior.Thems6.HomeWork5
 
         public Book(string name, string author, int yearPublished)
         {
+            _title = name;
             _author = author;
-            _title = name;   
             _yearPublished = yearPublished;
+        }
+
+        public Book()
+        {
+            _title = ReadTitle();
+            _author = ReadAuthor();
+            _yearPublished = ReadYear();
         }
 
         public string Name { get { return _title; } }
         public string Author { get { return _author; } }
         public int YearPublished { get { return _yearPublished; } }
+
+        private string ReadTitle()
+        {
+            Console.Write("Название: ");
+            return Console.ReadLine();
+        }
+
+        private string ReadAuthor()
+        {
+            Console.Write("Автор: ");
+            return Console.ReadLine();
+        }
+
+        private int ReadYear()
+        {
+            int year = 0;
+            Console.Write("Введите Год выпуска: ");
+
+            while (int.TryParse(Console.ReadLine(), out year) == false)
+            {
+                Console.WriteLine("Вы ввели не число");
+            }
+
+            return year;
+        }
 
         public override string ToString()
         {
@@ -55,7 +129,7 @@ namespace Unior.Thems6.HomeWork5
             _books = new List<Book>();
         }
 
-        public void ShowInfo()
+        public void ShowAllBooks()
         {
             foreach (Book book in _books)
             {
@@ -63,21 +137,18 @@ namespace Unior.Thems6.HomeWork5
             }
         }
 
-        public void AddBook()
+        public void AddBook(Book book)
         {
-            Console.WriteLine("Введите название книги, автора книги и год выпуска через пробел");
-            string[] input = Console.ReadLine().Split();
-
-            Book book = new Book(input[0], input[1], Convert.ToInt16(input[2]));
-
             _books.Add(book);
         }
 
-        private void Find(int parametr)
+        public void RemoveBook()
         {
-            foreach (Book book in _books)
+            Console.Write("Введите название: ");
+
+            if (TryGetBookByName(Console.ReadLine(), out Book book))
             {
-              //  book[parametr];
+                _books.Remove(book);
             }
         }
 
@@ -87,59 +158,68 @@ namespace Unior.Thems6.HomeWork5
             const int CommandAuthor = 1;
             const int CommandYearPlayer = 2;
 
-            Console.WriteLine($"Как вы хотите найти книгу:\n{CommandTitle} - по автору\n" +
-                $"{CommandAuthor} - по названию\n {CommandYearPlayer} - по году выпуска ");
+            Console.WriteLine($"Как вы хотите найти книгу:\n" +
+                $"{CommandTitle} - по названию\n" +
+                $"{CommandAuthor} - по автору\n" +
+                $"{CommandYearPlayer} - по году выпуска");
             int parametr = int.Parse(Console.ReadKey().KeyChar.ToString());
 
-            switch (parametr)
+            Console.Write("Введите значнеие: ");
+            string value = Console.ReadLine();
+
+            List<Book> foundBooks = new List<Book>();
+
+            foreach (Book book in _books)
             {
-                case CommandTitle:
-                    Console.WriteLine("Введите название книги: ");
-                    string input = Console.ReadLine();
-                    foreach (Book book in _books)
-                    {
-                        if (book.Name == input)
+                switch (parametr)
+                {
+                    case CommandTitle:
+
+                        if (book.Name.Equals(value))
                         {
-
+                            foundBooks.Add(book);
                         }
-                    }
-                    break;
+                        break;
 
-                case CommandAuthor:
-                    Console.WriteLine("Введите автора: ");
-                    break;
+                    case CommandAuthor:
 
-                case CommandYearPlayer:
-                    Console.WriteLine("Введите год: ");
-                    break;
+                        if (book.Author.Equals(value))
+                        {
+                            foundBooks.Add(book);
+                        }
+                        break;
 
+                    case CommandYearPlayer:
+
+                        if (book.YearPublished.Equals(Convert.ToInt32(value)))
+                        {
+                            foundBooks.Add(book);
+                        }
+                        break;
+
+                }
+            }
+
+            foreach (Book book in foundBooks)
+            {
+                Console.WriteLine(book.ToString());
             }
         }
-        //private bool TryGetBook(int playerId, out Player player)
-        //{
-        //    player = null;
+        private bool TryGetBookByName(string value, out Book book)
+        {
+            book = null;
 
-        //    foreach (Player elementPlayer in _players)
-        //    {
-        //        if (elementPlayer.Id == playerId)
-        //        {
-        //            player = elementPlayer;
-        //            return true;
-        //        }
-        //    }
+            foreach (Book elementBook in _books)
+            {
+                if (elementBook.Name == value)
+                {
+                    book = elementBook;
+                    return true;
+                }
+            }
 
-        //    return false;
-        //}
+            return false;
+        }
     }
 }
 
-//int result1 = DoOperation(6, DoubleNumber); // 12
-//Console.WriteLine(result1);
-
-//int result2 = DoOperation(6, SquareNumber); // 36
-//Console.WriteLine(result2);
-
-//int DoOperation(int n, Func<int, int> operation) => operation(n);
-//int DoubleNumber(int n) => 2 * n;
-//int SquareNumber(int n) => n * n;
-//int SquareNumber(int n) => n * n;
