@@ -5,7 +5,7 @@ namespace Unior.Thems6.HomeWork4
 {
     internal class HomeWork4
     {
-        public static void Main()
+        public static void Hm4()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -65,11 +65,11 @@ namespace Unior.Thems6.HomeWork4
             }
         }
 
-        public bool IsCardEmpty => _cards == null || _cards.Count == 0;
+        public bool HaveCards => _cards == null || _cards.Count == 0;
 
         public void ShowInfo()
         {
-            if (IsCardEmpty == false)
+            if (HaveCards == false)
             {
                 foreach (Card card in _cards)
                 {
@@ -156,13 +156,13 @@ namespace Unior.Thems6.HomeWork4
         public Сroupier()
         {
             _deck = new Deck();
+            _deck.Generate();
+            _deck.Shuffle();
             _player = new Player();
         }
 
         public void PlayGame(int countCards)
         {
-            _deck.Generate();
-            _deck.Shuffle();
             _player.TakeCards(_deck.DealCard(countCards));
         }
 
