@@ -30,16 +30,15 @@ namespace Unior.Thems6.HomeWork7
 
     internal class Wagon
     {
-        private int _countPlace;
         private int _minCountPlace = 30;
         private int _maxCountPlace = 52;
 
-        public Wagon(Random random)
+        public Wagon()
         {
-            _countPlace = random.Next(_minCountPlace, _maxCountPlace+1);
+            CountPlace = UserUtils.GenerateRandomNumber(_minCountPlace, _maxCountPlace);
         }
 
-        public int CountPlace { get { return _countPlace; } }
+        public int CountPlace { get;  }
     }
 
     internal class Train
@@ -53,9 +52,9 @@ namespace Unior.Thems6.HomeWork7
             _wagons = new List<Wagon>();
         }
 
-        public void AddWagon(Wagon wagon)
+        public void AddWagon()
         {
-            _wagons.Add(wagon);
+            _wagons.Add(new Wagon());
         }
 
         public int SumPlace()
@@ -75,15 +74,14 @@ namespace Unior.Thems6.HomeWork7
 
         public string CreateDirection()
         {
-            Random random = new Random();
-
             List<String> directions = new List<String>()
                 { "Москва — Киров",
                 "С.-Петербург — Хельсинки",
                 "Москва — Екатеринбург",
                 "С.-Петербург — Москва",
                 "С.-Петербург — Адлер"};
-            string direction = directions[random.Next(directions.Count)];
+
+            string direction = directions[UserUtils.GenerateRandomNumber(directions.Count)];
 
             return direction;
         }
@@ -114,25 +112,39 @@ namespace Unior.Thems6.HomeWork7
 
         public void CreateTrain()
         {
-            int passengers = SellTickets(new Random());
+            int passengers = SellTickets();
             Train train = new Train();
 
             while (train.SumPlace() < passengers)
             {
-                train.AddWagon( new Wagon(new Random()));
+                train.AddWagon();
             }
 
             train.CreateDirection();
             _train.Add(train);
             
         }
-        private int SellTickets(Random random)
+        private int SellTickets()
         {
             int minPaassengers = 60;
             int maxPaassengers = 520;
-            int passengers = random.Next(minPaassengers, maxPaassengers+1);
+            int passengers = UserUtils.GenerateRandomNumber(minPaassengers,maxPaassengers);
 
             return passengers;
+        }
+    }
+    internal class UserUtils
+    {
+        private static Random s_random = new Random();
+
+        public static int GenerateRandomNumber(int max, int min = 0)
+        {
+            return s_random.Next(min, max + 1);
+        }
+
+        public static double GenerateRandomDoubleNumber()
+        {
+            return s_random.NextDouble();
         }
     }
 }

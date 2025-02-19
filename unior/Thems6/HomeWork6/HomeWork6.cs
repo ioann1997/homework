@@ -19,10 +19,8 @@ namespace Unior.Thems6.HomeWork6
                 Console.Write("Что желаете купить? Введите название продукта: ");
                 input = Console.ReadLine();
 
-                market.Deal(input);
-                
-            }
-            
+                market.Deal(input);            
+            }         
         }
     }
 
@@ -43,14 +41,14 @@ namespace Unior.Thems6.HomeWork6
 
     internal class Person
     {
-        protected private List<Product> _product;
-        public int Score { get; private protected set; }
+        protected List<Product> Products;
+        public int Score { get; protected set; }
 
         public virtual void ShowInfo()
         {
             Console.WriteLine($"Cчёт: {Score}");
             Console.Write("Список продуктов в наличии: "); 
-            foreach (Product product in _product)
+            foreach (Product product in Products)
             {
                 Console.Write($"{product.Name} ");
             }
@@ -62,7 +60,7 @@ namespace Unior.Thems6.HomeWork6
     {
         public Seller()
         {
-            _product = new List<Product>()
+            Products = new List<Product>()
             {
                 new Product("Ананас", 90),
                 new Product("Хлеб", 20),
@@ -73,19 +71,12 @@ namespace Unior.Thems6.HomeWork6
         public void Sell(Product product)
         {
             Score += product.Price; ;
-            _product.Remove(product);
+            Products.Remove(product);
         }
 
         public List<Product> TakeProducts()
         {
-            List<Product> products = new List<Product>();
-
-            foreach (Product product in _product)
-            { 
-                products.Add(product);
-            }
-
-            return products;
+            return new List<Product>(Products);
         }
 
         public override void ShowInfo()
@@ -101,14 +92,14 @@ namespace Unior.Thems6.HomeWork6
     {
         public Buyer()
         {
-            _product = new List<Product>();
+            Products = new List<Product>();
             Score = 150;
         }
 
         public void Buy(Product product)
         {
             Score -= product.Price;
-            _product.Add(product);
+            Products.Add(product);
         }
 
         public override void ShowInfo()
@@ -166,7 +157,7 @@ namespace Unior.Thems6.HomeWork6
 
             foreach (Product elementproduct in _seller.TakeProducts())
             {
-                if (elementproduct.Name == name)
+                if (elementproduct.Name.Equals( name, StringComparison.OrdinalIgnoreCase))
                 {
                     product = elementproduct;
                     return true;

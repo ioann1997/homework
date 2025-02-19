@@ -7,6 +7,16 @@ namespace Unior.Thems6.HomeWork5
     {
         public static void Hm5()
         {
+            Librarian librarian = new Librarian();
+
+            librarian.Working();
+        }
+    }
+
+    internal class Librarian
+    {
+        public void Working()
+        {
             const char CommandAddBook = '1';
             const char CommandFindBook = '2';
             const char CommandRemoveBook = '3';
@@ -16,12 +26,7 @@ namespace Unior.Thems6.HomeWork5
             Library library = new();
             BookFactory bookFactory = new();
 
-            Book book = new Book("Война и мир", "Лев Толстой", 1869);
-
-            library.AddBook(new Book("Война и мир", "Лев Толстой", 1869));
-            library.AddBook(new Book("Анна Каренина", "Лев Толстой", 1877 ));
-            library.AddBook(new Book("Преступление и наказание","Федор Достоевский", 1866 ));
-            library.AddBook(new Book("Война и мир", "Лев Толстой", 1965 ));
+            library.FillStorage();
 
             char inputCommand = '0';
             bool isRunning = true;
@@ -105,6 +110,15 @@ namespace Unior.Thems6.HomeWork5
             _books = new List<Book>();
         }
 
+        public void FillStorage()
+        {
+            AddBook(new Book("Война и мир", "Лев Толстой", 1869));
+            AddBook(new Book("Анна Каренина", "Лев Толстой", 1877));
+            AddBook(new Book("Преступление и наказание", "Федор Достоевский", 1866));
+            AddBook(new Book("Война и мир", "Лев Толстой", 1965));
+        }
+
+
         public void ShowAllBooks()
         {
             int index = 0;
@@ -187,10 +201,17 @@ namespace Unior.Thems6.HomeWork5
 
             switch (choice)
             {
-                case CommandName: return book => book.Name.Equals(value, StringComparison.OrdinalIgnoreCase);
-                case CommandAuthor: return book => book.Author.Equals(value, StringComparison.OrdinalIgnoreCase);
-                case CommandYear: return book => book.YearPublished.ToString() == value;
-                default: return book => book.Name.Equals(value, StringComparison.OrdinalIgnoreCase); 
+                case CommandName: 
+                    return book => book.Name.Equals(value, StringComparison.OrdinalIgnoreCase);
+
+                case CommandAuthor: 
+                    return book => book.Author.Equals(value, StringComparison.OrdinalIgnoreCase);
+
+                case CommandYear: 
+                    return book => book.YearPublished.ToString() == value;
+
+                default: 
+                    return book => book.Name.Equals(value, StringComparison.OrdinalIgnoreCase); 
             }       
         }
 
