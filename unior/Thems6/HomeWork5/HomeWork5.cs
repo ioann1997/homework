@@ -38,7 +38,7 @@ namespace Unior.Thems6.HomeWork5
                 switch (inputCommand)
                 {
                     case CommandAddBook:
-                        library.AddBook(new Book());
+                        library.AddBook(new CreatorBook().CreateBook());
                         break;
 
                     case CommandFindBook:
@@ -78,26 +78,31 @@ namespace Unior.Thems6.HomeWork5
             _yearPublished = yearPublished;
         }
 
-        public Book()
-        {
-            _title = ReadTitle();
-            _author = ReadAuthor();
-            _yearPublished = ReadYear();
-        }
-
         public string Name { get { return _title; } }
         public string Author { get { return _author; } }
         public int YearPublished { get { return _yearPublished; } }
 
-        private string ReadTitle()
+        public override string ToString()
         {
-            Console.Write("Название: ");
-            return Console.ReadLine();
+            return $"Название: {_title}, Автор: {_author}, Год: {_yearPublished}";
+        }
+    }
+
+    internal class CreatorBook
+    {
+
+        public Book CreateBook()
+        {
+            string title = ReadString("Название: ");
+            string author = ReadString("Автор: ");
+            int year = ReadYear();
+
+            return new Book(title, author, year);
         }
 
-        private string ReadAuthor()
+        private string ReadString(string field)
         {
-            Console.Write("Автор: ");
+            Console.Write(field);
             return Console.ReadLine();
         }
 
@@ -113,11 +118,6 @@ namespace Unior.Thems6.HomeWork5
 
             return year;
         }
-
-        public override string ToString()
-        {
-            return $"Название: {_title}, Автор: {_author}, Год: {_yearPublished}";
-        }
     }
 
     internal class Library
@@ -131,9 +131,12 @@ namespace Unior.Thems6.HomeWork5
 
         public void ShowAllBooks()
         {
+            int index = 0;
+
             foreach (Book book in _books)
             {
-                Console.WriteLine(book.ToString());
+                Console.WriteLine($"{index.ToString()}) {book.ToString()}");
+                index++;
             }
         }
 
@@ -144,11 +147,15 @@ namespace Unior.Thems6.HomeWork5
 
         public void RemoveBook()
         {
-            Console.Write("Введите название: ");
+            int numberRow = ReadNumberRow();
 
-            if (TryGetBookByName(Console.ReadLine(), out Book book))
+            if (numberRow < _books.Count && numberRow >= 0)
             {
-                _books.Remove(book);
+                _books.RemoveAt(numberRow);
+            }
+            else
+            {
+                Console.WriteLine("Нет такй строки");
             }
         }
 
@@ -192,26 +199,24 @@ namespace Unior.Thems6.HomeWork5
             }
         }
 
-        private bool TryGetBookByName(string value, out Book book)
+        private int ReadNumberRow()
         {
-            book = null;
+            int id = 0;
+            Console.Write("Введите номер строки: ");
 
-            foreach (Book elementBook in _books)
+            while (int.TryParse(Console.ReadLine(), out id) == false)
             {
-                if (elementBook.Name == value)
-                {
-                    book = elementBook;
-                    return true;
-                }
+                Console.WriteLine("Вы ввели не число");
             }
 
-            return false;
+            return id;
         }
+
         private void FindBookByName(string value)
         {
             foreach (Book elementBook in _books)
             {
-                if (elementBook.Name == value)
+                if (elementBook.Name.ToLower() == value.ToLower())
                 {
                     Console.WriteLine(elementBook.ToString());
                 }
@@ -222,7 +227,7 @@ namespace Unior.Thems6.HomeWork5
         {
             foreach (Book elementBook in _books)
             {
-                if (elementBook.Author == value)
+                if (elementBook.Author.ToLower() == value.ToLower())
                 {
                     Console.WriteLine(elementBook.ToString());
                 }
