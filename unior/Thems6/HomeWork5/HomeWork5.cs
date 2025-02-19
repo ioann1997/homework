@@ -5,7 +5,7 @@ namespace Unior.Thems6.HomeWork5
 {
     internal class HomeWork5
     {
-        public static void Main()
+        public static void Hm5()
         {
             const char CommandAddBook = '1';
             const char CommandFindBook = '2';
@@ -13,8 +13,8 @@ namespace Unior.Thems6.HomeWork5
             const char CommandShowAllBook = '4';
             const char CommandStopProgramm = '5';
 
-            Library library = new Library();
-            BookFactory bookFactory = new BookFactory();
+            Library library = new();
+            BookFactory bookFactory = new();
 
             Book book = new Book("Война и мир", "Лев Толстой", 1869);
 
@@ -208,7 +208,8 @@ namespace Unior.Thems6.HomeWork5
             return foundBooks;
         }
     }
-    public  class UserUtils
+
+    internal class UserUtils
     {
         public static int ReadInt(string info = "")
         {
