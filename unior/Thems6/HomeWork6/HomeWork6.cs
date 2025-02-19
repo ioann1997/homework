@@ -37,20 +37,20 @@ namespace Unior.Thems6.HomeWork6
             _price = price; 
         }
 
-        public int Price { get { return _price; } }
-        public string Name { get { return _name; } }
+        public int Price => _price; 
+        public string Name => _name; 
     }
 
     internal class Person
     {
-        public List<Product> Product { get; private protected set; }
+        protected private List<Product> _product;
         public int Score { get; private protected set; }
 
         public virtual void ShowInfo()
         {
             Console.WriteLine($"Cчёт: {Score}");
             Console.Write("Список продуктов в наличии: "); 
-            foreach (Product product in Product)
+            foreach (Product product in _product)
             {
                 Console.Write($"{product.Name} ");
             }
@@ -62,7 +62,7 @@ namespace Unior.Thems6.HomeWork6
     {
         public Seller()
         {
-            Product = new List<Product>()
+            _product = new List<Product>()
             {
                 new Product("Ананас", 90),
                 new Product("Хлеб", 20),
@@ -73,7 +73,19 @@ namespace Unior.Thems6.HomeWork6
         public void Sell(Product product)
         {
             Score += product.Price; ;
-            Product.Remove(product);
+            _product.Remove(product);
+        }
+
+        public List<Product> TakeProducts()
+        {
+            List<Product> products = new List<Product>();
+
+            foreach (Product product in _product)
+            { 
+                products.Add(product);
+            }
+
+            return products;
         }
 
         public override void ShowInfo()
@@ -89,14 +101,14 @@ namespace Unior.Thems6.HomeWork6
     {
         public Buyer()
         {
-            Product = new List<Product>();
+            _product = new List<Product>();
             Score = 150;
         }
 
         public void Buy(Product product)
         {
             Score -= product.Price;
-            Product.Add(product);
+            _product.Add(product);
         }
 
         public override void ShowInfo()
@@ -152,7 +164,7 @@ namespace Unior.Thems6.HomeWork6
         {
             product = null;
 
-            foreach (Product elementproduct in _seller.Product)
+            foreach (Product elementproduct in _seller.TakeProducts())
             {
                 if (elementproduct.Name == name)
                 {

@@ -14,6 +14,7 @@ namespace Unior.Thems6.HomeWork5
             const char CommandStopProgramm = '5';
 
             Library library = new Library();
+            BookFactory bookFactory = new BookFactory();
 
             Book book = new Book("Война и мир", "Лев Толстой", 1869);
 
@@ -23,9 +24,9 @@ namespace Unior.Thems6.HomeWork5
             library.AddBook(new Book("Война и мир", "Лев Толстой", 1965 ));
 
             char inputCommand = '0';
-            bool isCurrentWorkProgramm = true;
+            bool isRunning = true;
 
-            while (isCurrentWorkProgramm)
+            while (isRunning)
             {
                 Console.WriteLine($"{CommandAddBook} - Добавить книгу\n" +
                     $"{CommandFindBook} - Найти книгу\n" +
@@ -38,7 +39,7 @@ namespace Unior.Thems6.HomeWork5
                 switch (inputCommand)
                 {
                     case CommandAddBook:
-                        library.AddBook(new CreatorBook().CreateBook());
+                        library.AddBook(bookFactory.Create());
                         break;
 
                     case CommandFindBook:
@@ -54,12 +55,10 @@ namespace Unior.Thems6.HomeWork5
                         break;
 
                     case CommandStopProgramm:
-                        isCurrentWorkProgramm = false;
+                        isRunning = false;
                         break;
                 }
 
-                //Console.Clear();
-                //library.ShowAllBooks();
                 Console.WriteLine();
             }
         }
@@ -67,56 +66,33 @@ namespace Unior.Thems6.HomeWork5
 
     internal class Book
     {
-        private string _title;
-        private string _author;
-        private int _yearPublished;
-
         public Book(string name, string author, int yearPublished)
         {
-            _title = name;
-            _author = author;
-            _yearPublished = yearPublished;
+            Name = name;
+            Author = author;
+            YearPublished = yearPublished;
         }
 
-        public string Name { get { return _title; } }
-        public string Author { get { return _author; } }
-        public int YearPublished { get { return _yearPublished; } }
+        public string Name { get; }
+        public string Author { get; }
+        public int YearPublished { get; }
 
         public override string ToString()
         {
-            return $"Название: {_title}, Автор: {_author}, Год: {_yearPublished}";
+            return $"Название: {Name}, Автор: {Author}, Год: {YearPublished}";
         }
     }
 
-    internal class CreatorBook
+    internal class BookFactory
     {
 
-        public Book CreateBook()
+        public Book Create()
         {
-            string title = ReadString("Название: ");
-            string author = ReadString("Автор: ");
-            int year = ReadYear();
+            string title = UserUtils.ReadString("Название: ");
+            string author = UserUtils.ReadString("Автор: ");
+            int year = UserUtils.ReadInt("Год Публикации: ");
 
             return new Book(title, author, year);
-        }
-
-        private string ReadString(string field)
-        {
-            Console.Write(field);
-            return Console.ReadLine();
-        }
-
-        private int ReadYear()
-        {
-            int year = 0;
-            Console.Write("Введите Год выпуска: ");
-
-            while (int.TryParse(Console.ReadLine(), out year) == false)
-            {
-                Console.WriteLine("Вы ввели не число");
-            }
-
-            return year;
         }
     }
 
@@ -133,10 +109,35 @@ namespace Unior.Thems6.HomeWork5
         {
             int index = 0;
 
-            foreach (Book book in _books)
+            if (_books.Count > 0)
             {
-                Console.WriteLine($"{index.ToString()}) {book.ToString()}");
-                index++;
+                foreach (var book in _books)
+                {
+                    Console.WriteLine($"{index.ToString()}) {book.ToString()}");
+                    index++;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Книги не найдены.");
+            }
+        }
+
+        private void ShowAllFindBooks(List<Book> foundBooks)
+        {
+            int index = 0;
+
+            if (foundBooks.Count > 0)
+            {
+                foreach (var book in foundBooks)
+                {
+                    Console.WriteLine($"{index.ToString()}) {book.ToString()}");
+                    index++;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Книги не найдены.");
             }
         }
 
@@ -147,11 +148,11 @@ namespace Unior.Thems6.HomeWork5
 
         public void RemoveBook()
         {
-            int numberRow = ReadNumberRow();
+            int index = UserUtils.ReadInt("Введите номер книги: ");
 
-            if (numberRow < _books.Count && numberRow >= 0)
+            if (index < _books.Count && index >= 0)
             {
-                _books.RemoveAt(numberRow);
+                _books.RemoveAt(index);
             }
             else
             {
@@ -161,91 +162,72 @@ namespace Unior.Thems6.HomeWork5
 
         public void FindBook()
         {
-            FindHandler bookDelegate = SelectFindHandler();
+            Predicate<Book> predicate = SelectPredicate();
 
-            Console.Write("Введите значнеие: ");
-            string value = Console.ReadLine();
+            List<Book> foundBooks = FindBooks(predicate);
 
-            bookDelegate(value);
+            ShowAllFindBooks(foundBooks);
         }
 
-        public FindHandler SelectFindHandler()
+        private Predicate<Book> SelectPredicate()
         {
-            const int CommandTitle = 0;
+            const int CommandName = 0;
             const int CommandAuthor = 1;
-            const int CommandYearPlayer = 2;
+            const int CommandYear = 2;
 
             Console.WriteLine($"Как вы хотите найти книгу:\n" +
-                $"{CommandTitle} - по названию\n" +
-                $"{CommandAuthor} - по автору\n" +
-                $"{CommandYearPlayer} - по году выпуска");
-            int parametr = int.Parse(Console.ReadKey().KeyChar.ToString());
+                              $"{CommandName} - по названию\n" +
+                              $"{CommandAuthor} - по автору\n" +
+                              $"{CommandYear} - по году выпуска");
 
-            switch (parametr)
+            int choice = UserUtils.ReadInt();
+
+            Console.Write("Введите значение: ");
+            string value = Console.ReadLine();
+
+            switch (choice)
             {
-                case CommandTitle:
-                    return FindBookByName;
-                    break;
-
-                case CommandAuthor:
-                    return FindBookByAuthor;
-                    break;
-
-                case CommandYearPlayer:
-                    return FindBookByYear;
-                    break;
-
-                default: return FindBookByName;
-            }
+                case CommandName: return book => book.Name.Equals(value, StringComparison.OrdinalIgnoreCase);
+                case CommandAuthor: return book => book.Author.Equals(value, StringComparison.OrdinalIgnoreCase);
+                case CommandYear: return book => book.YearPublished.ToString() == value;
+                default: return book => book.Name.Equals(value, StringComparison.OrdinalIgnoreCase); 
+            }       
         }
 
-        private int ReadNumberRow()
+        private List<Book> FindBooks(Predicate<Book> predicate)
         {
-            int id = 0;
-            Console.Write("Введите номер строки: ");
+            List<Book> foundBooks = new List<Book>();
 
-            while (int.TryParse(Console.ReadLine(), out id) == false)
+            foreach (Book book in _books)
+            {
+                if (predicate(book)) 
+                {
+                    foundBooks.Add(book);
+                }
+            }
+            return foundBooks;
+        }
+    }
+    public  class UserUtils
+    {
+        public static int ReadInt(string info = "")
+        {
+            int number = 0;
+            Console.Write(info);
+
+            while (int.TryParse(Console.ReadLine(), out number) == false)
             {
                 Console.WriteLine("Вы ввели не число");
             }
 
-            return id;
+            return number;
         }
 
-        private void FindBookByName(string value)
+        public static string ReadString(string info)
         {
-            foreach (Book elementBook in _books)
-            {
-                if (elementBook.Name.ToLower() == value.ToLower())
-                {
-                    Console.WriteLine(elementBook.ToString());
-                }
-            }
+            Console.Write(info);
+            return Console.ReadLine();
         }
-
-        private void FindBookByAuthor(string value)
-        {
-            foreach (Book elementBook in _books)
-            {
-                if (elementBook.Author.ToLower() == value.ToLower())
-                {
-                    Console.WriteLine(elementBook.ToString());
-                }
-            }
-        }
-
-        private void FindBookByYear(string value)
-        {
-            foreach (Book elementBook in _books)
-            {
-                if (elementBook.YearPublished.ToString() == value)
-                {
-                    Console.WriteLine(elementBook.ToString());
-                }
-            }
-        }
-
-        public delegate void FindHandler(string value);
     }
 }
 
