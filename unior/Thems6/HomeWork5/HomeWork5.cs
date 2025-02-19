@@ -154,6 +154,16 @@ namespace Unior.Thems6.HomeWork5
 
         public void FindBook()
         {
+            BookDelegate bookDelegate = FindBook2();
+
+            Console.Write("Введите значнеие: ");
+            string value = Console.ReadLine();
+
+            bookDelegate(value);
+        }
+
+        public BookDelegate FindBook2()
+        {
             const int CommandTitle = 0;
             const int CommandAuthor = 1;
             const int CommandYearPlayer = 2;
@@ -164,47 +174,24 @@ namespace Unior.Thems6.HomeWork5
                 $"{CommandYearPlayer} - по году выпуска");
             int parametr = int.Parse(Console.ReadKey().KeyChar.ToString());
 
-            Console.Write("Введите значнеие: ");
-            string value = Console.ReadLine();
-
-            List<Book> foundBooks = new List<Book>();
-
-            foreach (Book book in _books)
+            switch (parametr)
             {
-                switch (parametr)
-                {
-                    case CommandTitle:
+                case CommandTitle:
+                    return FindBookByName;
+                    break;
 
-                        if (book.Name.Equals(value))
-                        {
-                            foundBooks.Add(book);
-                        }
-                        break;
+                case CommandAuthor:
+                    return FindBookByAuthor;
+                    break;
 
-                    case CommandAuthor:
+                case CommandYearPlayer:
+                    return FindBookByYear;
+                    break;
 
-                        if (book.Author.Equals(value))
-                        {
-                            foundBooks.Add(book);
-                        }
-                        break;
-
-                    case CommandYearPlayer:
-
-                        if (book.YearPublished.Equals(Convert.ToInt32(value)))
-                        {
-                            foundBooks.Add(book);
-                        }
-                        break;
-
-                }
-            }
-
-            foreach (Book book in foundBooks)
-            {
-                Console.WriteLine(book.ToString());
+                default: return FindBookByName;
             }
         }
+
         private bool TryGetBookByName(string value, out Book book)
         {
             book = null;
@@ -220,6 +207,40 @@ namespace Unior.Thems6.HomeWork5
 
             return false;
         }
+        private void FindBookByName(string value)
+        {
+            foreach (Book elementBook in _books)
+            {
+                if (elementBook.Name == value)
+                {
+                    Console.WriteLine(elementBook.ToString());
+                }
+            }
+        }
+
+        private void FindBookByAuthor(string value)
+        {
+            foreach (Book elementBook in _books)
+            {
+                if (elementBook.Author == value)
+                {
+                    Console.WriteLine(elementBook.ToString());
+                }
+            }
+        }
+
+        private void FindBookByYear(string value)
+        {
+            foreach (Book elementBook in _books)
+            {
+                if (elementBook.YearPublished.ToString() == value)
+                {
+                    Console.WriteLine(elementBook.ToString());
+                }
+            }
+        }
+
+        public delegate void BookDelegate(string value);
     }
 }
 
