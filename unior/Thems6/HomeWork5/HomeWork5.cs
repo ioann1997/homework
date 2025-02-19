@@ -154,7 +154,7 @@ namespace Unior.Thems6.HomeWork5
 
         public void FindBook()
         {
-            BookDelegate bookDelegate = FindBook2();
+            FindHandler bookDelegate = SelectFindHandler();
 
             Console.Write("Введите значнеие: ");
             string value = Console.ReadLine();
@@ -162,7 +162,7 @@ namespace Unior.Thems6.HomeWork5
             bookDelegate(value);
         }
 
-        public BookDelegate FindBook2()
+        public FindHandler SelectFindHandler()
         {
             const int CommandTitle = 0;
             const int CommandAuthor = 1;
@@ -240,7 +240,7 @@ namespace Unior.Thems6.HomeWork5
             }
         }
 
-        public delegate void BookDelegate(string value);
+        public delegate void FindHandler(string value);
     }
 }
 
