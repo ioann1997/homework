@@ -60,23 +60,27 @@ namespace Unior.Thems6.HomeWork6
     {
         public Seller()
         {
-            Products = new List<Product>()
-            {
+            Products = CreateProducts()
+            Score = 0;
+        }
+
+        public TakeProducts => new List<Product>(Products);
+
+        public List<Product> CreateProducts()
+        {
+                List<Product> products = new List<Product>()
+                {
                 new Product("Ананас", 90),
                 new Product("Хлеб", 20),
                 new Product("Машина", 10000),
-            };
-            Score = 0;
-        }
+                };
+                return products
+        };
+        
         public void Sell(Product product)
         {
             Score += product.Price; ;
             Products.Remove(product);
-        }
-
-        public List<Product> TakeProducts()
-        {
-            return new List<Product>(Products);
         }
 
         public override void ShowInfo()
@@ -155,7 +159,7 @@ namespace Unior.Thems6.HomeWork6
         {
             product = null;
 
-            foreach (Product elementproduct in _seller.TakeProducts())
+            foreach (Product elementproduct in _seller.TakeProducts)
             {
                 if (elementproduct.Name.Equals( name, StringComparison.OrdinalIgnoreCase))
                 {
