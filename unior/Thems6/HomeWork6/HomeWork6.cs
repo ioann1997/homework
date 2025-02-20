@@ -16,7 +16,7 @@ namespace Unior.Thems6.HomeWork6
             while (input != stopWord)
             {
                 market.ShowInfo();
-                Console.Write("Что желаете купить? Введите название продукта: ");
+                Console.Write("Что желаете купить? Введите id продукта: ");
                 input = Console.ReadLine();
 
                 market.Deal(input);            
@@ -26,17 +26,33 @@ namespace Unior.Thems6.HomeWork6
 
     internal class Product
     {
-        private string _name;
-        private int _price;
+        private int _id;
+        //private string _name;
+        //private int _price;
 
-        public Product(string name, int price)
+        public Product(int id, string name, int price)
         {
-            _name = name;
-            _price = price; 
+            _id = id;
+            Name = name;
+            Price = price; 
         }
 
-        public int Price => _price; 
-        public string Name => _name; 
+        public int Price { private set; get;}
+        public string Name { private set; get;} 
+        public int Id => _id; 
+    }
+
+    internal class ProductFactory
+    {
+        private int _lastid =0;
+
+        public Product Create(string name, int price)
+        {
+            _id = _lastid;
+            _lastid++;
+
+            return new Product(id, name, price);
+        }
     }
 
     internal class Person
@@ -68,13 +84,16 @@ namespace Unior.Thems6.HomeWork6
 
         public List<Product> CreateProducts()
         {
-                List<Product> products = new List<Product>()
-                {
-                new Product("Ананас", 90),
-                new Product("Хлеб", 20),
-                new Product("Машина", 10000),
-                };
-                return products
+            ProductFactory productFactory= new();    
+            List<Product> products = new List<Product>();
+            AddProduct
+            {
+                productFactory.Create("Ананас", 90),
+                productFactory.Create("Хлеб", 20),
+                productFactory.Create("Машина", 10000),
+            };
+            
+            return products
         };
         
         public void Sell(Product product)
@@ -155,13 +174,13 @@ namespace Unior.Thems6.HomeWork6
             }
         }
 
-        private bool TryGetProduct(string name, out Product product)
+        private bool TryGetProduct(int id, out Product product)
         {
             product = null;
 
             foreach (Product elementproduct in _seller.TakeProducts)
             {
-                if (elementproduct.Name.Equals( name, StringComparison.OrdinalIgnoreCase))
+                if (elementproduct.Id = id)
                 {
                     product = elementproduct;
                     return true;
