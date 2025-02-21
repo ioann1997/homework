@@ -9,7 +9,6 @@ namespace Unior.Thems6.HomeWork6
         {
             Market market = new Market(new Buyer(), new Seller());
             market.Running();
-
         }
     }
 
