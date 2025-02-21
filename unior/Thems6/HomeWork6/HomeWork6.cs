@@ -5,53 +5,40 @@ namespace Unior.Thems6.HomeWork6
 {
     internal class HomeWork6
     {
-        public static void Hm6()
+        public static void Main()
         {
             Market market = new Market(new Buyer(), new Seller());
-            string stopWord = "exit";
-            string input = "";
+            market.Running();
 
-            Console.WriteLine($"Вы пришли в магазин, если хотите уйти, введите {stopWord}");
-
-            while (input != stopWord)
-            {
-                market.ShowInfo();
-                Console.Write("Что желаете купить? Введите id продукта: ");
-                input = Console.ReadLine();
-
-                market.Deal(input);            
-            }         
         }
     }
 
     internal class Product
     {
         private int _id;
-        //private string _name;
-        //private int _price;
 
         public Product(int id, string name, int price)
         {
             _id = id;
             Name = name;
-            Price = price; 
+            Price = price;
         }
 
-        public int Price { private set; get;}
-        public string Name { private set; get;} 
-        public int Id => _id; 
+        public int Price { private set; get; }
+        public string Name { private set; get; }
+        public int Id => _id;
     }
 
     internal class ProductFactory
     {
-        private int _lastid =0;
+        private int _lastid = 0;
 
         public Product Create(string name, int price)
         {
-            _id = _lastid;
+            Product product = new Product(_lastid, name, price);
             _lastid++;
 
-            return new Product(id, name, price);
+            return product;
         }
     }
 
@@ -63,39 +50,38 @@ namespace Unior.Thems6.HomeWork6
         public virtual void ShowInfo()
         {
             Console.WriteLine($"Cчёт: {Score}");
-            Console.Write("Список продуктов в наличии: "); 
+            Console.WriteLine("Список продуктов в наличии: ");
             foreach (Product product in Products)
             {
-                Console.Write($"{product.Name} ");
+                Console.WriteLine($"{product.Id} {product.Name} {product.Price}");
             }
             Console.WriteLine();
         }
     }
 
-    internal class Seller : Person 
+    internal class Seller : Person
     {
         public Seller()
         {
-            Products = CreateProducts()
+            Products = CreateProducts();
             Score = 0;
         }
 
-        public TakeProducts => new List<Product>(Products);
+        public List<Product> TakeProducts => new List<Product>(Products);
 
         public List<Product> CreateProducts()
         {
-            ProductFactory productFactory= new();    
-            List<Product> products = new List<Product>();
-            AddProduct
+            ProductFactory productFactory = new();
+            List<Product> products = new List<Product>()
             {
                 productFactory.Create("Ананас", 90),
                 productFactory.Create("Хлеб", 20),
                 productFactory.Create("Машина", 10000),
             };
-            
-            return products
-        };
-        
+
+            return products;
+        }
+
         public void Sell(Product product)
         {
             Score += product.Price; ;
@@ -151,9 +137,41 @@ namespace Unior.Thems6.HomeWork6
             _buyer.ShowInfo();
         }
 
-        public void Deal(string input)
+        public void Running()
         {
-            if (TryGetProduct(input, out Product product))
+            const char CommandBuyProduct = '1';
+            const char CommandStopProgramm = '2';
+
+            char inputCommand = '0';
+            bool isRunning = true;
+
+            while (isRunning)
+            {
+                ShowInfo();
+                Console.WriteLine($"Вы пришли в магазин.\n" +
+                    $"если хотите уйти, введите {CommandStopProgramm}\n" +
+                    $"Если хотите купить товар, введите {CommandBuyProduct}\n");
+
+                inputCommand = Console.ReadKey().KeyChar;
+
+                switch (inputCommand)
+                {
+                    case CommandBuyProduct:
+                        Console.Write("Что желаете купить?");
+                        Deal(UserUtils.ReadInt("Введите Id: "));
+                        break;
+
+                    case CommandStopProgramm:
+                        isRunning = false;
+                        break;
+                }
+            }
+
+        }
+
+        private void Deal(int inputId)
+        {
+            if (TryGetProduct(inputId, out Product product))
             {
                 if (_buyer.Score > product.Price)
                 {
@@ -180,7 +198,7 @@ namespace Unior.Thems6.HomeWork6
 
             foreach (Product elementproduct in _seller.TakeProducts)
             {
-                if (elementproduct.Id = id)
+                if (elementproduct.Id == id)
                 {
                     product = elementproduct;
                     return true;
@@ -188,6 +206,22 @@ namespace Unior.Thems6.HomeWork6
             }
 
             return false;
+        }
+    }
+
+    internal class UserUtils
+    {
+        public static int ReadInt(string info = "")
+        {
+            int number = 0;
+            Console.Write(info);
+
+            while (int.TryParse(Console.ReadLine(), out number) == false)
+            {
+                Console.WriteLine("Вы ввели не число");
+            }
+
+            return number;
         }
     }
 }
