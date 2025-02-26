@@ -10,7 +10,7 @@ namespace Unior.Thems6.HomeWork8
 {
     internal class HomeWork8
     {
-        public static void hm()
+        public static void Main()
         {
             Fighter[] fighters =
             {
@@ -69,7 +69,7 @@ namespace Unior.Thems6.HomeWork8
             Console.WriteLine("Введите номер бойца: ");
 
             int index = ReadIndex("Ведите индекс: ", fighters);
-            Fighter fighter = (Fighter)fighters[index].Clone();
+            Fighter fighter = (Fighter)fighters[index];
 
             return fighter;
         }
@@ -274,6 +274,11 @@ namespace Unior.Thems6.HomeWork8
             {
                 Console.WriteLine($"{_name} повержен!");
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{_name} armor:{_armor} health:{_health} damage:{_damage} skill:{_skill.GetType().Name}";
         }
         public object Clone()
         {

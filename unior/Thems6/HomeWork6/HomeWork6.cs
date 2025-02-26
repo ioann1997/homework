@@ -5,10 +5,11 @@ namespace Unior.Thems6.HomeWork6
 {
     internal class HomeWork6
     {
-        public static void Main()
+        public static void Hm6()
         {
-            Market market = new Market(new Buyer(), new Seller());
-            market.Running();
+            ProductFactory productFactory = new ProductFactory();
+            Market market = new Market(new Buyer(), new Seller(productFactory.CreateDefault()));
+            market.Run();
         }
     }
 
@@ -39,6 +40,18 @@ namespace Unior.Thems6.HomeWork6
 
             return product;
         }
+
+        public List<Product> CreateDefault()
+        {
+            List<Product> products = new List<Product>()
+            {
+                Create("Ананас", 90),
+                Create("Хлеб", 20),
+                Create("Машина", 10000),
+            };
+
+            return products;
+        }
     }
 
     internal class Person
@@ -50,35 +63,38 @@ namespace Unior.Thems6.HomeWork6
         {
             Console.WriteLine($"Cчёт: {Score}");
             Console.WriteLine("Список продуктов в наличии: ");
+
             foreach (Product product in Products)
             {
                 Console.WriteLine($"{product.Id} {product.Name} {product.Price}");
             }
+
             Console.WriteLine();
         }
     }
 
     internal class Seller : Person
     {
-        public Seller()
+        public Seller(List<Product> products)
         {
-            Products = CreateProducts();
+            Products = products;
             Score = 0;
         }
 
-        public List<Product> TakeProducts => new List<Product>(Products);
-
-        public List<Product> CreateProducts()
+        public bool TryGetProduct(int id, out Product product)
         {
-            ProductFactory productFactory = new();
-            List<Product> products = new List<Product>()
-            {
-                productFactory.Create("Ананас", 90),
-                productFactory.Create("Хлеб", 20),
-                productFactory.Create("Машина", 10000),
-            };
+            product = null;
 
-            return products;
+            foreach (Product elementproduct in Products)
+            {
+                if (elementproduct.Id == id)
+                {
+                    product = elementproduct;
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void Sell(Product product)
@@ -93,7 +109,6 @@ namespace Unior.Thems6.HomeWork6
             Console.WriteLine("Информация о продавце");
             base.ShowInfo();
         }
-
     }
 
     internal class Buyer : Person
@@ -108,6 +123,11 @@ namespace Unior.Thems6.HomeWork6
         {
             Score -= product.Price;
             Products.Add(product);
+        }
+
+        public bool CanPay(Product product)
+        {
+            return Score > product.Price;
         }
 
         public override void ShowInfo()
@@ -136,7 +156,7 @@ namespace Unior.Thems6.HomeWork6
             _buyer.ShowInfo();
         }
 
-        public void Running()
+        public void Run()
         {
             const char CommandBuyProduct = '1';
             const char CommandStopProgramm = '2';
@@ -165,14 +185,13 @@ namespace Unior.Thems6.HomeWork6
                         break;
                 }
             }
-
         }
 
         private void Deal(int inputId)
         {
-            if (TryGetProduct(inputId, out Product product))
+            if (_seller.TryGetProduct(inputId, out Product product))
             {
-                if (_buyer.Score > product.Price)
+                if (_buyer.CanPay(product))
                 {
                     _seller.Sell(product);
                     _buyer.Buy(product);
@@ -189,22 +208,6 @@ namespace Unior.Thems6.HomeWork6
                 Console.Clear();
                 Console.WriteLine("Нет, такого продукта у продовца");
             }
-        }
-
-        private bool TryGetProduct(int id, out Product product)
-        {
-            product = null;
-
-            foreach (Product elementproduct in _seller.TakeProducts)
-            {
-                if (elementproduct.Id == id)
-                {
-                    product = elementproduct;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 
