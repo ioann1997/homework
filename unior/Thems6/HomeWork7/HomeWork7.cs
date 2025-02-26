@@ -63,39 +63,18 @@ namespace Unior.Thems6.HomeWork7
     {
         private List<Wagon> _wagons;
         private Direction _direction;
+        private int _countSellTickets;
 
-        public Train(Direction direction)
+        public Train(Direction direction, List<Wagon> wagons, int countSellTickets)
         {
             _direction = direction;
-            _wagons = new List<Wagon>();
-        }
-
-        public void AddWagons(int passengers)
-        {
-            while (SumPlace() < passengers)
-            {
-                _wagons.Add(new Wagon());
-            }
-        }
-
-        public int SumPlace()
-        {
-            int result = 0;
-
-            if (_wagons != null && _wagons.Count > 0)
-            {
-                foreach (Wagon wagon in _wagons)
-                {
-                    result += wagon.CountPlace;
-                }
-            }
-
-            return result;
+            _wagons = wagons;
+            _countSellTickets = countSellTickets;
         }
 
         public override string ToString()
         {
-            return $"Направление {_direction} Кол-во вагонов: {_wagons.Count} Всего мест: {SumPlace()}";
+            return $"Направление {_direction} Кол-во вагонов: {_wagons.Count} Всего проданных билетов: {_countSellTickets}";
         }
     }
 
@@ -110,8 +89,20 @@ namespace Unior.Thems6.HomeWork7
 
         public Direction CreateDirection()
         {
-            string departure = UserUtils.ReadString("Введите город отправления: ");
-            string ariival = UserUtils.ReadString("Введите город прибытия: ");
+            string departure = "";
+            string ariival = "";
+
+            while (departure == ariival)
+            {
+                departure = UserUtils.ReadString("Введите город отправления: ");
+                ariival = UserUtils.ReadString("Введите город прибытия: ");
+
+                if (departure == ariival)
+                {
+                    Console.WriteLine("Город прибытия не может быть равен городу отправления");
+                }
+            }
+
             Direction direction = new Direction(departure, ariival);
 
             return direction;
@@ -124,13 +115,29 @@ namespace Unior.Thems6.HomeWork7
             {
                 Console.WriteLine(train.ToString());
             }
-        }   
+        }
+
+        public List<Wagon> AddWagons(int passengers)
+        {
+            List<Wagon> wagons = new List<Wagon>();
+            int SumPlace = 0;
+
+            while (SumPlace < passengers)
+            {
+                Wagon wagon = new Wagon();
+
+                wagons.Add(wagon);
+                SumPlace += wagon.CountPlace;
+            }
+
+            return wagons;
+        }
 
         public void CreateTrain()
         {
             int passengers = SellTickets();
-            Train train = new Train(CreateDirection());
-            train.AddWagons(passengers);
+            List<Wagon> wagons = AddWagons(passengers);
+            Train train = new Train(CreateDirection(), wagons, passengers);
             _trains.Add(train);        
         }
         
