@@ -23,7 +23,6 @@ namespace Unior.Thems6.HomeWork7
                     supervisor.CreateTrain();
                     supervisor.ShowInfo();
                 }
-
             }
         }
     }
@@ -121,9 +120,9 @@ namespace Unior.Thems6.HomeWork7
             }
 
             train.CreateDirection();
-            _train.Add(train);
-            
+            _train.Add(train);        
         }
+        
         private int SellTickets()
         {
             int minPaassengers = 60;
@@ -133,6 +132,7 @@ namespace Unior.Thems6.HomeWork7
             return passengers;
         }
     }
+    
     internal class UserUtils
     {
         private static Random s_random = new Random();
