@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Unior.Thems6.HomeWork8
 {
@@ -12,68 +7,80 @@ namespace Unior.Thems6.HomeWork8
     {
         public static void Main()
         {
-            Fighter[] fighters =
-            {
-                new Fighter("Женя", 10, 200, 35, new CriticalAttack()),
-                new Fighter("Коля", 10, 200, 35, new DoubleAttack()),
-                new Fighter("Ваня", 10, 200, 35, new Dodge()),
-                new Fighter("Петя", 10, 200, 35, new FireBall()),
-                new Fighter("Иоанн", 10, 200, 35, new FuryHeal())
-            };
-
-            Console.WriteLine("choose");
-            foreach (var fighter in fighters)
-            {
-                Console.WriteLine(fighter);
-            }
-
             Arena arena = new Arena();
-
-            //int input = int.Parse(Console.ReadLine());
-
-            Fighter fighter1 = arena.ChooseFighter();
-            Fighter fighter2 = arena.ChooseFighter();
-
-            Console.WriteLine("War");
-
-            while (fighter1.Health > 0 && fighter2.Health > 0)
-            {
-                fighter1.Attack(fighter2);
-                fighter2.Attack(fighter1);
-            }
-
-
+            arena.Fight();
         }
     }
 
     internal class Arena
     {
-        private Fighter[] fighters = {
-                new Fighter("Женя", 10, 200, 35, new CriticalAttack()),
-                new Fighter("Коля", 10, 200, 35, new DoubleAttack()),
-                new Fighter("Ваня", 10, 200, 35, new Dodge()),
-                new Fighter("Петя", 10, 200, 35, new FireBall()),
-                new Fighter("Иоанн", 10, 200, 35, new FuryHeal())
-            };
+        private Fighter[] _fighters = 
+        {
+            new Fighter("Женя", 10, 200, 35, new CriticalAttack()),
+            new Fighter("Коля", 10, 200, 35, new DoubleAttack()),
+            new Fighter("Ваня", 10, 200, 35, new Dodge()),
+            new Fighter("Петя", 10, 200, 35, new FireBall()),
+            new Fighter("Иоанн", 10, 200, 35, new FuryHeal())
+        };
+
+        public Arena()
+        {
+            ShowGreetMessage();
+        }
+
+        private void ShowGreetMessage()
+        {
+            Console.WriteLine("Приветсвую Вас на нашей Арене");
+        }
 
         public void ShowFighters()
         {
-            foreach (var fighter in fighters)
+            foreach (var fighter in _fighters)
             {
                 Console.WriteLine(fighter);
             }
         }
 
-        public Fighter ChooseFighter()
-        { 
-            Console.WriteLine("Введите номер бойца: ");
+        public void Fight()
+        {
+            ShowFighters();
+            string input = "";
+            string runWord = "Нет";
 
-            int index = ReadIndex("Ведите индекс: ", fighters);
-            Fighter fighter = (Fighter)fighters[index];
+            do
+            {
+
+                Fighter fighter1 = ChooseFighter();
+                Fighter fighter2 = ChooseFighter();
+
+                Console.WriteLine("Да начнётся бой!");
+
+                while (fighter1.Health > 0 && fighter2.Health > 0)
+                {
+                    fighter1.Attack(fighter2);
+                    Thread.Sleep(1000);
+                    fighter2.Attack(fighter1);
+                    Thread.Sleep(1000);
+                }
+
+                Console.WriteLine("Покинуть арену? Да/Нет");
+                input = Console.ReadLine();
+            }
+            while (input == runWord);
+
+            Console.WriteLine("До новых встреч!");
+        }
+
+        public Fighter ChooseFighter()
+        {
+            Console.WriteLine("Выберите бойца: ");
+
+            int index = ReadIndex("Ведите индекс: ", _fighters);
+            Fighter fighter = _fighters[index].Clone();
 
             return fighter;
         }
-    
+
         public int ReadIndex<T>(string info, T[] values)
         {
             int index = UserUtils.ReadInt(info);
@@ -88,30 +95,32 @@ namespace Unior.Thems6.HomeWork8
         }
     }
 
-    internal interface ISkill : ICloneable
+    internal abstract class Skill
     {
-        public int ModifyDamage(int damage)
+        public virtual int ModifyDamage(int damage)
         {
             return damage;
         }
 
-        public int OnDamageTaken(Fighter fighter, int damage) 
+        public virtual int OnDamageTaken(Fighter fighter, int damage)
         {
             return damage;
         }
 
-        public int GetAttackCount()
+        public virtual int GetAttackCount()
         {
             return 1;
         }
+
+        public abstract Skill Clone();
     }
 
-    internal class Dodge : ISkill
+    internal class Dodge : Skill
     {
         private int _damage = 0;
         private double _chance = 0.4;
 
-        public int OnDamageTaken(Fighter fighter, int damage)
+        public override int OnDamageTaken(Fighter fighter, int damage)
         {
             if (UserUtils.GenerateRandomDoubleNumber() <= _chance)
             {
@@ -125,20 +134,20 @@ namespace Unior.Thems6.HomeWork8
             }
         }
 
-        public object Clone()
+        public override Skill Clone()
         {
             return new Dodge();
         }
     }
 
 
-    internal class FireBall : ISkill
+    internal class FireBall : Skill
     {
         private int _mana = 30;
         private int _manaCost = 10;
         private int _fireBallDamage = 50;
 
-        public int ModifyDamage(int damage)
+        public override int ModifyDamage(int damage)
         {
             if (_mana >= _manaCost)
             {
@@ -150,21 +159,21 @@ namespace Unior.Thems6.HomeWork8
             else
             {
                 return damage;
-            }    
+            }
         }
 
-        public object Clone()
+        public override Skill Clone()
         {
             return new FireBall();
         }
     }
 
-    internal class FuryHeal : ISkill
+    internal class FuryHeal : Skill
     {
         private int fury = 0;
         private int maxFury = 100;
 
-        public int OnDamageTaken(Fighter fighter, int damage)
+        public override int OnDamageTaken(Fighter fighter, int damage)
         {
             fury += damage;
             if (fury >= maxFury)
@@ -177,18 +186,18 @@ namespace Unior.Thems6.HomeWork8
             return damage;
         }
 
-        public object Clone()
+        public override Skill Clone()
         {
             return new FuryHeal();
         }
     }
 
-        internal class CriticalAttack : ISkill
+    internal class CriticalAttack : Skill
     {
         private int _criticalDamage = 2;
         private double _criticalChanceDamage = 0.4;
 
-        public int ModifyDamage(int damdage)
+        public override int ModifyDamage(int damdage)
         {
             if (UserUtils.GenerateRandomDoubleNumber() < _criticalChanceDamage)
             {
@@ -199,17 +208,17 @@ namespace Unior.Thems6.HomeWork8
             return damdage;
         }
 
-        public object Clone()
+        public override Skill Clone()
         {
             return new CriticalAttack();
         }
     }
 
-    internal class DoubleAttack : ISkill
+    internal class DoubleAttack : Skill
     {
         private int _attackCounter = 1;
 
-        public int GetAttackCount()
+        public override int GetAttackCount()
         {
             _attackCounter++;
             if (_attackCounter % 3 == 0)
@@ -220,25 +229,25 @@ namespace Unior.Thems6.HomeWork8
             return _attackCounter % 3 == 0 ? 2 : 1;
         }
 
-        public object Clone()
+        public override Skill Clone()
         {
             return new DoubleAttack();
         }
     }
 
-    internal class Fighter : ICloneable
+    internal class Fighter
     {
         private string _name;
         private int _health;
         private int _damage;
         private int _armor;
-        private ISkill _skill;
+        private Skill _skill;
 
-        public int Damage { get { return _damage; }  set { _damage = value; } }
-        public int Health { get { return _health; } set { _health = value; }  }
+        public int Damage { get { return _damage; } set { _damage = value; } }
+        public int Health { get { return _health; } set { _health = value; } }
         public string Name { get { return _name; } }
 
-        public Fighter(string name, int armor, int health, int damage, ISkill skill)
+        public Fighter(string name, int armor, int health, int damage, Skill skill)
         {
             _name = name;
             _armor = armor;
@@ -260,7 +269,7 @@ namespace Unior.Thems6.HomeWork8
                 int finalDamage = _skill.ModifyDamage(damageDealt);
                 enemy.TakeDamage(finalDamage);
 
-                //Console.WriteLine($"{_name} атакует {enemy.Name}, нанося {finalDamage} урона.");
+                Console.WriteLine($"{_name} атакует {enemy.Name}, нанося {finalDamage} урона.");
             }
         }
 
@@ -280,9 +289,9 @@ namespace Unior.Thems6.HomeWork8
         {
             return $"{_name} armor:{_armor} health:{_health} damage:{_damage} skill:{_skill.GetType().Name}";
         }
-        public object Clone()
+        public Fighter Clone()
         {
-            return new Fighter(_name, _damage, _health, _armor, (ISkill)_skill.Clone());
+            return new Fighter(_name, _armor, _health, _damage, _skill.Clone());
         }
     }
 
@@ -292,7 +301,7 @@ namespace Unior.Thems6.HomeWork8
 
         public static int GenerateRandomNumber(int max, int min = 0)
         {
-            return s_random.Next(min, max+1);
+            return s_random.Next(min, max + 1);
         }
 
         public static double GenerateRandomDoubleNumber()
