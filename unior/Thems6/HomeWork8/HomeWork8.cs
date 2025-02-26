@@ -5,7 +5,7 @@ namespace Unior.Thems6.HomeWork8
 {
     internal class HomeWork8
     {
-        public static void Main()
+        public static void Hm8()
         {
             Arena arena = new Arena();
             arena.Fight();

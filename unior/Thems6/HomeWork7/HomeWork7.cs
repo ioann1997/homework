@@ -10,7 +10,7 @@ namespace Unior.Thems6.HomeWork7
             string stopWord = "нет";
             string input = "";
             string commandCreateTrain = "да";
-            Supervisor supervisor = new Supervisor();
+            Dispatcher supervisor = new Dispatcher();
 
             while (input != stopWord)
             {
@@ -40,20 +40,45 @@ namespace Unior.Thems6.HomeWork7
         public int CountPlace { get;  }
     }
 
+    internal class Direction
+    {
+        private string _departure;
+        private string _arrival;
+
+        public Direction(string departure, string arrival)
+        {
+            _arrival = arrival;
+            _departure = departure;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Место отправления: {_departure} Место прибытия: {_arrival}");
+        }
+
+        public override string ToString()
+        {
+            return $"{_departure}-{_arrival}";
+        }
+    }
+
     internal class Train
     {
         private List<Wagon> _wagons;
-        private string _direction;
+        private Direction _direction;
 
-        public Train()
+        public Train(Direction direction)
         {
-            _direction = CreateDirection();
+            _direction = direction;
             _wagons = new List<Wagon>();
         }
 
-        public void AddWagon()
+        public void AddWagons(int passengers)
         {
-            _wagons.Add(new Wagon());
+            while (SumPlace() < passengers)
+            {
+                _wagons.Add(new Wagon());
+            }
         }
 
         public int SumPlace()
@@ -71,56 +96,45 @@ namespace Unior.Thems6.HomeWork7
             return result;
         }
 
-        public string CreateDirection()
-        {
-            List<String> directions = new List<String>()
-                { "Москва — Киров",
-                "С.-Петербург — Хельсинки",
-                "Москва — Екатеринбург",
-                "С.-Петербург — Москва",
-                "С.-Петербург — Адлер"};
-
-            string direction = directions[UserUtils.GenerateRandomNumber(directions.Count)];
-
-            return direction;
-        }
-
         public override string ToString()
         {
             return $"Направление {_direction} Кол-во вагонов: {_wagons.Count} Всего мест: {SumPlace()}";
         }
     }
 
-    internal class Supervisor
+    internal class Dispatcher
     {
-        private List<Train> _train;
+        private List<Train> _trains;
 
-        public Supervisor()
+        public Dispatcher()
         {
-            _train = new List<Train>();
+            _trains = new List<Train>();
+        }
+
+        public Direction CreateDirection()
+        {
+            string departure = UserUtils.ReadString("Введите город отправления: ");
+            string ariival = UserUtils.ReadString("Введите город прибытия: ");
+            Direction direction = new Direction(departure, ariival);
+
+            return direction;
         }
 
         public void ShowInfo()
         {
             Console.WriteLine("Информация о поездах");
-            foreach (Train train in _train)
+            foreach (Train train in _trains)
             {
                 Console.WriteLine(train.ToString());
             }
-        }
+        }   
 
         public void CreateTrain()
         {
             int passengers = SellTickets();
-            Train train = new Train();
-
-            while (train.SumPlace() < passengers)
-            {
-                train.AddWagon();
-            }
-
-            train.CreateDirection();
-            _train.Add(train);        
+            Train train = new Train(CreateDirection());
+            train.AddWagons(passengers);
+            _trains.Add(train);        
         }
         
         private int SellTickets()
@@ -137,14 +151,15 @@ namespace Unior.Thems6.HomeWork7
     {
         private static Random s_random = new Random();
 
-        public static int GenerateRandomNumber(int max, int min = 0)
+        public static int GenerateRandomNumber(int min, int max)
         {
             return s_random.Next(min, max + 1);
         }
 
-        public static double GenerateRandomDoubleNumber()
+        public static string ReadString(string info)
         {
-            return s_random.NextDouble();
+            Console.Write(info);
+            return Console.ReadLine();
         }
     }
 }
