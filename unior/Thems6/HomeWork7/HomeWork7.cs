@@ -117,7 +117,7 @@ namespace Unior.Thems6.HomeWork7
             }
         }
 
-        public List<Wagon> AddWagons(int passengers)
+        public List<Wagon> CreateWagons(int passengers)
         {
             List<Wagon> wagons = new List<Wagon>();
             int SumPlace = 0;
@@ -136,7 +136,7 @@ namespace Unior.Thems6.HomeWork7
         public void CreateTrain()
         {
             int passengers = SellTickets();
-            List<Wagon> wagons = AddWagons(passengers);
+            List<Wagon> wagons = CreateWagons(passengers);
             Train train = new Train(CreateDirection(), wagons, passengers);
             _trains.Add(train);        
         }
