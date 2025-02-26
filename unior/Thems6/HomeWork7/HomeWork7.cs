@@ -5,7 +5,7 @@ namespace Unior.Thems6.HomeWork7
 {
     internal class HomeWork7
     {
-        public static void Hm7()
+        public static void Main()
         {
             string stopWord = "нет";
             string input = "";
@@ -29,12 +29,9 @@ namespace Unior.Thems6.HomeWork7
 
     internal class Wagon
     {
-        private int _minCountPlace = 30;
-        private int _maxCountPlace = 52;
-
         public Wagon()
         {
-            CountPlace = UserUtils.GenerateRandomNumber(_minCountPlace, _maxCountPlace);
+            CountPlace = 40;
         }
 
         public int CountPlace { get;  }
